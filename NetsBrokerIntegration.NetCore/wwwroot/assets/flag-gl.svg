@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:cc="http://web.resource.org/cc/"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    id="svg378"
+    viewBox="0 0 1063 708.66"
+    version="1"
+    y="0"
+    x="0"
+  >
+  <rect
+      id="rect149"
+      style="fill-rule:evenodd;stroke-width:1pt;fill:#ffffff"
+      height="708.66"
+      width="1063"
+      y=".000061"
+      x=".000122"
+  />
+  <rect
+      id="rect148"
+      style="fill-rule:evenodd;stroke-width:1pt;fill:#df0000"
+      height="354.33"
+      width="1063"
+      y="354.33"
+      x=".000122"
+  />
+  <path
+      id="path567"
+      style="fill-rule:evenodd;stroke-width:1pt;fill:#df0000"
+      transform="matrix(1 0 0 -1 0 860.51)"
+      d="m628.27 506.38a217.36 217.36 0 1 1 -434.71 0"
+  />
+  <path
+      id="path568"
+      style="fill-rule:evenodd;stroke-width:1pt;fill:#ffffff"
+      transform="translate(0 -152.4)"
+      d="m628.27 506.38a217.36 217.36 0 1 1 -434.71 0"
+  />
+  <metadata
+    >
+    <rdf:RDF
+      >
+      <cc:Work
+        >
+        <dc:format
+          >image/svg+xml</dc:format
+        >
+        <dc:type
+            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+        />
+        <cc:license
+            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+        />
+        <dc:publisher
+          >
+          <cc:Agent
+              rdf:about="http://openclipart.org/"
+            >
+            <dc:title
+              >Openclipart</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:publisher
+        >
+        <dc:title
+          >denmark greenland</dc:title
+        >
+        <dc:date
+          >2011-01-31T00:50:54</dc:date
+        >
+        <dc:description
+          >Originally uploaded by Daniel McRae for OCAL 0.18</dc:description
+        >
+        <dc:source
+          >https://openclipart.org/detail/110833/denmark-greenland-by-anonymous</dc:source
+        >
+        <dc:creator
+          >
+          <cc:Agent
+            >
+            <dc:title
+              >Anonymous</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:creator
+        >
+        <dc:subject
+          >
+          <rdf:Bag
+            >
+            <rdf:li
+              >Denmark</rdf:li
+            >
+            <rdf:li
+              >Flag</rdf:li
+            >
+            <rdf:li
+              >Greenland</rdf:li
+            >
+          </rdf:Bag
+          >
+        </dc:subject
+        >
+      </cc:Work
+      >
+      <cc:License
+          rdf:about="http://creativecommons.org/licenses/publicdomain/"
+        >
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Reproduction"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Distribution"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+        />
+      </cc:License
+      >
+    </rdf:RDF
+    >
+  </metadata
+  >
+</svg
+>

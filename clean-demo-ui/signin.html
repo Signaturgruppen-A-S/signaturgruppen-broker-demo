@@ -1,0 +1,138 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Nets eID Broker</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/mitid.css">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body class="signin">
+    <div class="split-wrapper">
+        <section class="signing-frame">
+            <div class="mitid-client">
+                <div class="loading">
+                    <figure class="mitid-logo"></figure>
+                    <figure class="shield">
+                        <div class="spinner"></div>
+                    </figure>
+                    <h1>Connecting securely</h1>
+                    <h2>Please wait...</h2>
+                </div>
+                <div class="succes">
+                    <figure class="mitid-logo"></figure>
+                    <figure class="shield">
+                        <figure class="check"></figure>
+                    </figure>
+                    <h1>Verified</h1>
+                </div>
+                <div class="concent">
+                    <h2>We need your consent</h2>
+                    <h1>My Bank will recieve the following info:</h1>
+                    <ul>
+                        <li>Your CPR-number</li>
+                    </ul>
+                    <button class="btn-primary btn-next" id="consent-button">Allow</button>
+                    <footer>
+                        <button class="btn-text" onclick="cancel()">Cancel</button>
+                    </footer>
+                </div>
+                <header>
+                    <h1>Sign in on Nets eID Broker</h1>
+                </header>
+                <label id="dummy-username">
+                    USER-ID
+                    <input type="text" id="Username" name="Username" autofocus>
+                </label>
+                <label id="dummy-password" class="hidden">
+                    PASSWORD
+                    <input type="password" id="Password" name="Password" autofocus>
+                </label>
+                <button class="btn-primary btn-next btn-disabled" id="dummy-button">Continue</button>
+                <footer>
+                    <button class="btn-text" onclick="cancel()">Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <section class="content">
+            <figure class="logo"></figure>
+            <div class="soft-content">
+                <h1>Welcome</h1>
+                <h3>To Nets MitID eID demo</h3>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+
+    $( document ).ready(function() {
+        if (window.opener && window.opener !== window) {
+            $("body").addClass("popupmode");
+        }
+    });
+   
+    let state = 1;
+
+    function cancel(){
+        if($("body").hasClass("popupmode")){
+            window.opener.postMessage("CLOSE", '*');
+        }else{
+            history.back(-1);
+        }
+    }
+
+    $('#dummy-username input').on('input', function () {
+        if ($(this).val().length >= 1) {
+            $("#dummy-button").removeClass("btn-disabled");
+        } else {
+            $("#dummy-button").addClass("btn-disabled");
+        }
+    });
+    $('#dummy-password input').on('input', function () {
+        if ($(this).val().length >= 1) {
+            $("#dummy-button").removeClass("btn-disabled");
+        } else {
+            $("#dummy-button").addClass("btn-disabled");
+        }
+    });
+    $("#dummy-button").click(function (ev) {
+        ev.preventDefault();
+        if (state === 1) {
+            $('#dummy-username').addClass("hidden");
+            $('#dummy-password').removeClass("hidden");
+            $("#dummy-button").addClass("btn-disabled");
+            $('#dummy-password input').focus();
+            state++;
+        } else if (state === 2) {
+            $(".succes").addClass("active");
+            if($("body").hasClass("popupmode")){
+                setTimeout(function(){
+                    window.opener.postMessage("REDIRECT", '*');
+                    window.open('','_self').close();
+                },1500);
+            }else{
+                setTimeout(function(){
+                    window.location.replace("loggedin.html")
+                },1500);
+            }
+        }
+    })
+    $(document).bind('keypress', function (e) {
+        if (e.keyCode == 13) {
+            $('#dummy-button').trigger('click');
+        }
+    });
+
+    </script>
+</body>
+
+</html>

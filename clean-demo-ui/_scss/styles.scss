@@ -1,0 +1,687 @@
+@import 'normalize';
+@import 'help';
+
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+
+// Color from Nets design guidelines with official nets names
+$nets-light-blue:   rgb(201,233,251) !default;
+$nets-dark-blue:    rgb(0,87,118) !default; 
+$nets-bright-blue:  rgb(0,190,240) !default; 
+$nets-blue-grey:    rgb(110,159,188) !default; 
+$nets-middle-blue:  rgb(130,208,245) !default;
+$nets-light-gray:   rgb(235,235,235) !default; 
+$nets-dark-gray:    rgb(186,186,186) !default; 
+$nets-orange:       rgb(237,139,0) !default; 
+
+$andeby-blue: #0537c1;
+$andeby-bright-blue: #0071cf;
+
+//custom variables
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$generic-border: 1px solid $gray-100;
+
+html{
+    height:100%;
+    font-family: 'Roboto', sans-serif;
+}
+body{
+    display:flex;
+    font-size:90%;
+    &.netbank,
+    &.signin,
+    &.confirm{
+        height:100%;
+    }
+    &.netbank{
+        figure.logo{
+            background-image: url(../assets/nets-mitid-broker.svg);
+        }
+    }
+}
+.ie11-warning{
+    display:none;
+    .ie11 &{
+        display: block;
+        width: 100%;
+        background: #ff304d;
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: center;
+        z-index: 100;
+        font-size: 10px;
+    }
+}
+a{
+    text-decoration: none;
+    &:visited{
+        color:initial;
+    }
+}
+h3{
+    font-size: 200%;
+    color:$gray-700;
+}
+h4{
+    font-weight: normal;
+}
+.popup-dialog{
+    .popup-background{
+        transition: 1s opacity;
+        opacity:0;
+    }
+    .popup-content{
+        display:none;
+    }
+}
+.popup-active{
+    .popup-dialog{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        width:100vw;
+        height:100vh;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1000;
+        .popup-content{
+            display:flex;
+            flex-direction: column;
+            width:400px;
+            height:588px;
+            align-items: center;
+            justify-content: center;
+            color:white;
+            z-index:1100;
+            text-align: center;
+            h3{
+                color:white;
+            }
+            .btn-main{
+                margin:1rem;
+            }
+        }
+        .popup-background{
+            opacity: .8;
+            background:black;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+}
+}
+.btn{
+    padding:.5rem 1rem;
+    border-radius: .5rem;
+    border:0;
+    cursor:pointer;
+    box-shadow: 0 4px 6px -1px rgba(0,190,240,.1),0 2px 4px -1px rgba(0,190,240,.06);
+    text-transform: uppercase;
+    &:focus{
+        outline:0;
+    }
+    &-main{
+        color:rgba(255,255,255,.9);
+        background-color:$andeby-bright-blue;
+        transition: .2s background-color;
+        &:visited{
+            color:rgba(255,255,255,.9); 
+        }
+        &:hover{
+            background-color: lighten($nets-bright-blue,5%);
+        }
+    }
+    &.btn-phone{
+        background-image:url(../assets/phone.svg);
+        background-position:20px center;
+        background-size:30px;
+        background-repeat: no-repeat;
+        padding-left:60px;
+        cursor: not-allowed;
+    }
+    &.btn-chat{
+        background-image:url(../assets/chat.svg);
+        background-position:20px center;
+        background-size:30px;
+        background-repeat: no-repeat;
+        padding-left:60px;
+        cursor: not-allowed;
+    }
+    &.btn-signin{
+        background-image:url(../assets/signin.svg);
+        background-position:20px center;
+        background-size:30px;
+        background-repeat: no-repeat;
+        padding-left:60px;
+        background-color:#0060e6;
+        margin:.5rem;
+        display:inline-block;
+        padding:1rem 2rem 1rem 4rem;
+        font-weight: bold;
+        box-shadow:0 25px 50px -12px rgba(0,0,0,.25);
+        &:hover{
+            background-color:lighten($andeby-bright-blue,3%);
+            box-shadow:0 10px 25px -6px rgba(0,0,0,.25);
+        }
+    }
+
+    &.btn-continue{
+        width: 100% !important;
+        max-width: 400px;
+        text-align: center;
+        margin: 0;
+        margin-bottom: 2rem;
+        padding: 1.5rem 1rem 1rem 1rem !important;
+    }
+}
+
+#welcome-back{
+    display: inline-block;
+}
+#signout{
+    float:right;
+    margin-right:1rem;
+    background-image:url(../assets/signout.svg);
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    padding:.75rem 1.5rem;
+}
+header{
+    ul{
+        cursor:not-allowed;
+        list-style: none;
+        padding:0;
+        position: absolute;
+        right:2rem;
+        top:2rem;
+        li{
+            opacity:.5;
+            display: inline-block;
+            padding:1rem;
+            &.active{
+                opacity: 1;
+            }
+            &.btn{
+                margin-left:2rem;
+                margin-right:1rem;
+                border:1px solid white;
+                opacity: 1;
+                a{
+                    color:white;
+                }
+                &:hover{
+                    background-color: white;
+                    a{
+                        color:$andeby-blue;
+                    }
+                }
+            }
+        }
+    }
+}
+aside{
+    margin-top:1rem;
+    ul{
+        cursor:not-allowed;
+        list-style: none;
+        padding:0;
+        margin:1rem;
+        margin-top:2rem;
+        li{
+            color:$gray-500;
+            padding-top:.5rem;
+            padding-bottom:.5rem;
+            margin-bottom:.5rem;
+            background-image:url(../assets/arrow-right.svg);
+            background-position: right 10px;
+            background-repeat: no-repeat;
+            background-size: 10px;
+            a{
+                color:$black;
+            }
+            &.active a{
+                color:$nets-bright-blue;
+            }
+            &.unfold{
+                color:$black;
+                background-image: url(../assets/arrow-down.svg);
+                margin-bottom: 0;
+                ul{
+                    margin: 1rem;
+                    margin-bottom: 0;
+                    li{
+                        background:none;
+                    }
+                }
+            }
+        }
+    }
+    width:25%;
+    max-width:300px;
+}
+figure.logo{
+    margin:1rem;
+    background-image:url(../assets/nets-mitid-broker-negativ.svg);
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height:45px;
+    width:80px;
+    padding-left:60px;
+    display: flex;
+    align-items: center;
+    font-weight:bold;
+    font-size:120%;
+    .popupmode &{
+        display:none;
+    }
+}
+figure.success{
+    background-image:url(../assets/success.svg);
+    background-repeat: no-repeat;
+    width:60px;
+    height:60px;
+    display: inline-block;
+    margin:0;
+    background-size: contain;
+    margin-right:1rem;
+    vertical-align: middle;
+    padding-top: 7px;
+    opacity:.7;
+}
+figure.scope{
+    background-image:url(../assets/scope.svg);
+    background-repeat: no-repeat;
+    width:60px;
+    height:60px;
+    display: inline-block;
+    margin:0;
+    background-size: contain;
+    margin-right:1rem;
+    vertical-align: middle;
+    padding-top: 7px;
+    opacity:.7;
+}
+figure.popup{
+    background-image: url(../assets/popup.svg);
+    background-repeat: no-repeat;
+    background-size:contain;
+    width:100px;
+    height:100px;
+}
+
+.content{
+    flex:1;
+    margin-left:1rem;
+    display:flex;
+    flex-direction: column;
+    header{
+        height:100px;
+        padding-top:2rem;
+        margin-bottom:1rem;
+        box-sizing: border-box;
+    }
+    .box{
+        border-left:$generic-border;
+        border-top:$generic-border;
+        background:$gray-200;
+        margin-bottom:1rem;
+        margin-right:1rem;
+        border-radius:.5rem;
+        flex:1;
+        .overview{
+            padding:2rem;
+        }
+    }
+}
+
+.split-wrapper{
+    display:flex;
+    width:100%;
+    height:100%;
+    &.mandatory{
+        .btn-continue{
+            display:none;
+        }
+        @media screen and (max-width:800px){
+            flex-direction: row-reverse;
+            section{
+                display:flex;
+                flex: none;
+                width: 100%;
+                left: 0;
+                position: absolute;
+                min-height: 100%;
+                height: 587px;
+                &.content{
+                    justify-content: flex-start;
+                    padding:1rem;
+                    padding-top: 120px;
+                    .popupmode &{
+                        padding-top:2rem;
+                    }
+                    display:flex;
+                    z-index:100;
+                    .btn-continue{
+                        display:block;
+                    }
+                }
+            }
+        }
+    }
+    section{
+        flex:1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.signing-frame{
+            @media screen and (max-width:800px){
+                flex:1;
+                padding:0;
+            }
+            padding:2rem 4rem;
+            flex:none;
+        }
+        @media screen and (min-width:800px) and (max-width:1000px){
+            padding:2rem !important;
+        }
+        &.content{
+            @media screen and (max-width:800px){
+                display:none;
+            }
+            figure.logo{
+                position: absolute;
+                top:2rem;
+                background-image: url(../assets/nets-mitid-broker-negativ.svg);
+                margin-left:0;
+            }
+            align-items: flex-start;
+            justify-content: center;
+            padding:4rem;
+            margin:0;
+            box-sizing: border-box;
+            color:white;
+            background:linear-gradient($andeby-bright-blue, $andeby-blue);
+            .soft-content{
+                max-width:700px;
+                width:100%;
+                h1{
+                    margin:0;
+                }
+                h3{
+                    color:$nets-bright-blue;
+                    font-size:120%;
+                    margin-top:.5rem;
+                }
+                p{
+                    line-height: 20px;
+                    margin-bottom:50px;
+                }
+                .btn{
+                    width:auto;
+                    margin-right:1rem;
+                    margin-bottom:1rem;
+                    padding: 1rem 2rem 1rem 4rem;
+                    line-height: 20px;
+                    height: auto;
+                    box-shadow:0 25px 50px -12px rgba(0,0,0,.25);
+                    transition: .4s box-shadow background-color;
+                    &:hover{
+                        background-color:lighten($andeby-bright-blue,3%);
+                        box-shadow:0 10px 25px -6px rgba(0,0,0,.25);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.confirm-note{
+    &--block{
+        max-width:100%;
+    }
+    background-color:white;
+    max-width:400px;
+    color:$gray-700;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+    border-radius: 5px 5px 0 0;
+    ul{
+        list-style:none;
+        margin:0;
+        padding:4rem 1rem 0 1rem;
+        @media screen and (max-width:800px){
+            padding-top:2rem;
+            li{
+                padding-left:1rem !important;
+                &:last-child{
+                    margin-bottom:0;
+                }
+            }
+        }
+        li{
+            display:flex;
+            flex-direction: column;
+            margin-bottom:2rem;
+            padding-left:3rem;
+            //text-align:center;
+            .key{
+                color:$gray-500;
+                font-size:90%;
+                margin-bottom:5px;
+                text-transform: uppercase;
+            }
+            .value{
+                font-weight:bold;
+            }
+            .total,
+            .heading{
+                font-size:160%;
+            }
+        }
+    }
+    &:after {
+        background: linear-gradient(-45deg,transparent 16px,#fff 0), linear-gradient(45deg,transparent 16px,#fff 0);
+        background-repeat: repeat-x;
+        background-position: left bottom;
+        background-size: 12px 20px;
+        content: "";
+        display: block;
+        width: 100%;
+        height: 32px;
+        position: relative;
+        top: 20px;
+        left: 0px;
+    }
+}
+
+.notification{
+    background:$andeby-bright-blue;
+    background-image: url(../assets/notification.svg);
+    background-position: 20px center;
+    background-size:30px;
+    background-repeat: no-repeat;
+    color:white;
+    padding:1.5rem 1rem 1.5rem 4rem;
+    border-radius:.5rem .5rem 0 0;
+    .text{
+        margin-right:1rem;
+        display:inline-block;
+    }
+    .btn-mitid{
+        display:inline-block;
+        border:1px solid white;
+        background-image:url(../assets/mitid-logo-neg.png);
+        background-size:50px;
+        background-position:24px center;
+        background-repeat: no-repeat;
+        padding-left:90px;
+        padding-right:24px;
+        text-transform: none;
+        &:hover{
+            background-image:url(../assets/mitid-logo.png);
+            background-color: white;
+            color:$andeby-bright-blue;
+        }
+    }
+}
+
+.cards{
+    list-style:none;
+    padding:0;
+    margin:0;
+    li{
+        border-radius:20px;
+        height:240px;
+        width:400px;
+        display: inline-block;
+        padding:2rem;
+        box-sizing: border-box;
+        position: relative;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,.20);
+        background-color:$gray-200;
+        border:1px solid $gray-400;
+        margin-bottom:1rem;
+        .cards-contactless{
+            position: absolute;
+            right:0;
+            top:4rem;
+            background-image: url(../assets/wireless.svg);
+            background-size: contain;
+            background-position: right top;
+            background-repeat: no-repeat;
+            width:25px;
+            height: 25px;
+            transform: rotate(90deg);
+        }
+        .cards-bankname{
+            text-transform: uppercase;
+            font-size:120%;
+            font-weight: bold;
+            margin-top:0;
+        }
+        .cards--chip{
+            background-image:url(../assets/chip.png);
+            background-position: left top;
+            background-repeat: no-repeat;
+            background-size: contain;
+            width:50px;
+            height:40px;
+            margin:0;
+        }
+        .cards-number{
+            font-size:28px;
+            letter-spacing: 2px;
+            font-family: monospace;
+            margin-top:30px;
+            margin-bottom:1rem;
+        }
+        .cards-logo--visa{
+            background-image:url(../assets/visa.svg);
+            width:40px;
+            height:40px;
+            position: absolute;
+            right:2rem;
+            top:1.5rem;
+            background-position: left center;
+            background-repeat: no-repeat;
+            margin:0;
+        }
+        .cards-name{
+            font-family: monospace;
+            font-size:18px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+ 
+        &:not(:first-child){
+            transform: scale(.75);
+            transform-origin: top;
+        }
+    }
+}
+
+@media screen and (max-width:1000px){
+    body{
+        flex-direction: column;
+        &.open{
+            .content{
+                padding:0 !important;
+            }
+        }
+    }
+    aside{
+        width:100%;
+        max-width: initial;
+        .hamburger{
+            background-image:url(../assets/hamburger.svg);
+            background-repeat: no-repeat;
+            background-size: contain;
+            height:25px;
+            width:25px;
+            position: absolute;
+            top:40px;
+            right:1rem;
+            margin:0;
+        }
+        ul{
+            display:none;
+        }
+    }
+    .content{
+        header{
+            padding-top:10px;
+            height:70px;
+        }
+    }
+    .notification{
+        .btn-mitid{
+            display:inline-block;
+            margin-left:0;
+            margin-right:0;
+            margin-top:1rem;
+        }
+    }
+    .cards{
+        transform: scale(.6);
+        width:160%;
+        transform-origin: top left;
+    }
+    header{
+        figure.logo{
+            margin: 0 auto;
+            width: 110px;
+        }
+        ul{
+            display: none;
+        }
+    }
+}
+
+body.open{
+    background:linear-gradient($andeby-bright-blue, $andeby-blue);
+    color:white;
+    padding:2rem;
+    flex-direction: column;
+    figure.logo{
+        background-image: url(../assets/nets-mitid-broker-negativ.svg);
+    }
+    .content{
+        text-align: center;
+        display:block;
+        padding-top:8rem;
+        margin:0;
+    }
+}

@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Loggin in..</title>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if (window.opener && window.opener !== window) {
+                window.opener.postMessage("SUCCESS", '*');
+            }
+            window.location.replace("@Url.Action("Claims", "Secure")")
+        });
+    </script>
+</body>
+</html>

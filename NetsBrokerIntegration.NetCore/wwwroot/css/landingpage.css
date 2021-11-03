@@ -1,0 +1,731 @@
+html {
+	height: 100%;
+	font-family: 'Roboto', sans-serif;
+}
+
+body {
+	display: flex;
+	font-size: 90%;
+	word-break: break-word;
+	background-color: #0537c1;
+	background-image: linear-gradient(#0071cf, #0537c1);
+	background-repeat: no-repeat;
+	color: #fff;
+	padding: 2rem;
+	flex-direction: column;
+}
+
+.content {
+	text-align: center;
+	display: block;
+	padding-top: 8rem;
+	margin: 0;
+}
+
+figure.logo {
+	margin: 1rem;
+	background-position: center left;
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 45px;
+	width: 80px;
+	padding-left: 60px;
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+	font-size: 120%;
+	background-image: url(../assets/nets-mitid-broker-negativ.svg);
+}
+
+.ie11-warning {
+	display: none;
+}
+
+.ie11 .ie11-warning {
+	display: block;
+	width: 100%;
+	background: #ff304d;
+	position: absolute;
+	left: 0;
+	top: 0;
+	text-align: center;
+	z-index: 100;
+	font-size: 10px;
+}
+
+h3 {
+	font-size: 200%;
+	color: #495057;
+}
+
+h4 {
+	font-weight: normal;
+}
+
+h5 {
+	margin-bottom: 12px;
+}
+
+.btn.btn-outline {
+	padding: 1rem;
+	border-radius: .5rem;
+	border: 1px solid white;
+	cursor: pointer;
+	text-transform: uppercase;
+	color: white;
+	display: flex;
+	justify-content: center;
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .25);
+	width: 100%;
+	margin-bottom: .5rem;
+	box-sizing: border-box;
+	transition: opacity .2s;
+}
+
+.popup-dialog .popup-content {
+	display: none;
+}
+
+.popup-active .popup-dialog {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1000;
+}
+
+.popup-active .popup-dialog .popup-content {
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+	height: 588px;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	z-index: 1100;
+	text-align: center;
+}
+
+.popup-active .popup-dialog .popup-content h3 {
+	color: #fff;
+}
+
+.popup-active .popup-dialog .popup-content .btn-main {
+	margin: 1rem;
+}
+
+.popup-active .popup-dialog .popup-background {
+	opacity: .8;
+	background: #000;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.mitid-button {
+	background-color: #0060e6;
+	color: white;
+	border-radius: .5rem;
+	margin-left: 24px;
+	margin-right: 22px;
+	height: 48px;
+	border: 0;
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .25);
+	width: 100%;
+	max-width: 450px;
+	font-size: 14px;
+	margin: auto;
+	margin-top: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.mitid-button figure {
+	margin: 0;
+	margin-right: 16px;
+}
+
+.mitid-button:hover,
+.mitid-button:focus {
+	background-color: #0079de;
+	box-shadow: 0 10px 25px -6px rgba(0, 0, 0, .25);
+	outline: none;
+}
+
+input[type='text'] {
+	border-radius: .5rem;
+	outline: none;
+	width: 100%;
+	padding: 1rem;
+	background: none;
+	border: 1px solid white;
+	box-sizing: border-box;
+	color: white;
+}
+
+.btn-text {
+	margin: auto;
+	margin-top: 24px;
+	background: none;
+	padding: 1rem;
+	color: white;
+	border: 1px solid #0079de;
+	border-radius: .5rem;
+	display: block;
+	cursor: pointer;
+	width: 100%;
+	max-width: 450px;
+}
+
+.btn-text:hover,
+.btn-text:focus {
+	border: 1px solid white;
+	outline: none;
+}
+
+.mitid-icon {
+	background-image: url(../assets/mitid-logo-neg.svg);
+	background-size: contain;
+	background-position: top left;
+	background-repeat: no-repeat;
+	height: 12px;
+	width: 50px;
+	margin-bottom: 4px;
+}
+
+.nemid-icon {
+	background-image: url(../assets/nemid-logo-neg.svg);
+	background-size: contain;
+	background-position: top left;
+	background-repeat: no-repeat;
+	height: 12px;
+	width: 50px;
+	margin-bottom: 4px;
+}
+
+code {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	text-align: left;
+	background: #0537c1;
+	padding: 1rem;
+	border-radius: .5rem;
+	box-shadow: inset 4px 3px 16px rgba(0, 0, 0, .2);
+	opacity: .6;
+	word-break: break-all;
+	border: 1px solid rgba(0, 0, 0, .2);
+}
+
+code:hover {
+	opacity: 1;
+}
+
+.signin-form .toggle-group {
+	width: 100%;
+}
+
+.signin-form .form-group {
+	border: 1px solid white;
+	padding: 2rem 1rem;
+	width: 100%;
+	box-sizing: border-box;
+	margin-bottom: 2rem;
+	margin-top: -1px;
+	border-radius: 0 0 .25rem .25rem;
+	text-align: left;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.signin-form .form-group > *:first-child {
+	margin-top: 0;
+}
+
+.signin-form {
+	display: flex;
+	flex-direction: column;
+	place-items: flex-start;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.signin-form .input-group {
+	display: flex;
+	width: 100%;
+	min-height: 90px;
+	margin-bottom: 24px;
+}
+
+.signin-form .input-group-compact {
+	display: flex;
+	width: 100%;
+	min-height: 20px;
+	margin-bottom: 12px;
+	margin-top: 12px;
+}
+
+.signin-form .checkbox-multi-select {
+	width: 100%;
+	margin-right: 1rem;
+	margin-top: 1rem;
+}
+
+.signin-form .checkbox-multi-select:last-child {
+	margin-right: 0;
+}
+
+.signin-form .checkbox-multi-select input {
+	display: none;
+}
+
+.signin-form .checkbox-multi-select .checkbox-control {
+	border: 1px solid white;
+	display: inline-flex;
+	padding: 1.5rem;
+	border-radius: 4px;
+	opacity: .5;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	align-items: center;
+	transition: background-color .2s;
+	cursor: pointer;
+}
+
+.signin-form .checkbox-multi-select .checkbox-control .checkbox-marker {
+	width: 1.5rem;
+	height: 1.5rem;
+	border: 1px solid white;
+	border-radius: .25rem;
+	background: transparent;
+	margin-right: 1rem;
+}
+
+.signin-form .checkbox-multi-select .checkbox-control .mitid-icon,
+.signin-form .checkbox-multi-select .checkbox-control .nemid-icon {
+	margin-bottom: 0;
+}
+
+.signin-form .checkbox-multi-select .subject {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.signin-form .checkbox-multi-select input[type='checkbox']:checked + .checkbox-control,
+.signin-form .checkbox-multi-select input[type='checkbox']:hover + .checkbox-control {
+	background-color: #2d77d3;
+	opacity: 1;
+}
+
+.signin-form .checkbox-multi-select input[type='checkbox']:checked + .checkbox-control {
+	border-radius: .25rem .25rem 0 0;
+}
+
+.signin-form .checkbox-multi-select input[type='checkbox']:checked + .checkbox-control .checkbox-marker {
+	background-color: white;
+	background-image: url(../assets/checkmark.svg);
+	background-position: 57% 50%;
+	background-size: 70%;
+	background-repeat: no-repeat;
+}
+
+.signin-form .radio-select {
+	flex: 1;
+	margin-right: 1rem;
+}
+
+.signin-form .radio-select:last-child {
+	margin-right: 0;
+}
+
+.signin-form .radio-select input {
+	display: none;
+}
+
+.signin-form .radio-select .radio-control {
+	border: 1px solid white;
+	display: inline-flex;
+	padding: 1.5rem;
+	border-radius: 4px;
+	opacity: .5;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	align-items: center;
+	transition: background-color .2s;
+	cursor: pointer;
+}
+
+.signin-form .radio-select .subject {
+	display: flex;
+	flex-direction: column;
+}
+
+.signin-form .radio-select input[type='radio']:checked + .radio-control,
+.signin-form .radio-select input[type='radio']:hover + .radio-control {
+	background-color: #2d77d3;
+	opacity: 1;
+}
+
+.signin-form .radio-select .radio-control .one-factor-icon {
+	background-image: url(../assets/key.svg);
+	width: 24px;
+	height: 24px;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-right: 1rem;
+}
+
+.signin-form .radio-select .radio-control .two-factor-icon {
+	background-image: url(../assets/keys.svg);
+	width: 24px;
+	height: 24px;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-right: 1rem;
+}
+
+.signin-form .radio-select .radio-control .popup-icon {
+	background-image: url(../assets/popup.svg);
+	width: 24px;
+	height: 24px;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-right: 1rem;
+}
+
+.signin-form .radio-select .radio-control .redirect-icon {
+	background-image: url(../assets/redirect.svg);
+	width: 20px;
+	height: 20px;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-right: 1rem;
+}
+
+.signin-form .checkbox-select {
+	margin-top: 12px;
+	display: flex;
+}
+
+.signin-form .checkbox-select input {
+	display: none;
+}
+
+.signin-form .checkbox-select .checkbox-control {
+	opacity: .5;
+	display: flex;
+	align-items: center;
+}
+
+.signin-form .checkbox-select .checkbox-indicator {
+	width: 20px;
+	height: 20px;
+	border: 1px solid white;
+	border-radius: 4px;
+	display: block;
+	margin-right: 10px;
+	transition: background-color .2s, background-size 1s;
+}
+
+.signin-form .checkbox-select input[type='checkbox']:checked + .checkbox-control,
+.signin-form .checkbox-select input[type='checkbox']:hover + .checkbox-control {
+	opacity: 1;
+}
+
+.signin-form .checkbox-select input[type='checkbox']:checked + .checkbox-control .checkbox-indicator {
+	background-color: white;
+	background-image: url(../assets/checkmark.svg);
+	background-position: center center;
+	background-size: 14px 14px;
+	background-repeat: no-repeat;
+}
+
+.signin-form button {
+	padding: 1.5rem;
+	border-radius: .5rem;
+	border: 0;
+	cursor: pointer;
+	text-transform: uppercase;
+	background-image: url(../assets/proceed.svg);
+	background-position: right 24px center;
+	background-size: 30px;
+	background-repeat: no-repeat;
+	background-color: #0060e6;
+	color: white;
+	display: flex;
+	text-align: left;
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .25);
+	width: 100%;
+	margin-top: 24px;
+	transition: opacity .2s;
+}
+
+.signin-form button[disabled],
+.signin-form button[disabled]:hover {
+	background-color: #063d8a;
+	border: 1px solid #4a3232;
+	opacity: .3;
+	box-shadow: none;
+	cursor: not-allowed;
+}
+
+.signin-form button:hover {
+	background-color: #0079de;
+	box-shadow: 0 10px 25px -6px rgba(0, 0, 0, .25);
+}
+
+.signin-form .textarea-content {
+	width: 100%;
+	margin-top: 12px;
+}
+
+.signin-form .textarea-content textarea {
+	width: 100%;
+	height: 500px;
+	border-radius: .5rem;
+	background: none;
+	border: 1px solid white;
+	padding: 1.5rem;
+	box-sizing: border-box;
+	margin-top: 12px;
+	color: white;
+}
+
+.signin-form .textarea-content textarea:focus {
+	background: white;
+	color: #0071cf;
+	outline: #0071cf auto;
+}
+
+figure.popup {
+	background-image: url(../assets/popup.svg);
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 100px;
+	height: 100px;
+}
+
+.popup-dialog .popup-background {
+	transition: 1s opacity;
+	opacity: 0;
+}
+
+.popup-dialog .popup-content {
+	display: none;
+}
+
+.popup-active .popup-dialog {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 1000;
+}
+
+.popup-active .popup-dialog .popup-content {
+	display: flex;
+	flex-direction: column;
+	width: 452px;
+	height: 640px;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	z-index: 1100;
+	text-align: center;
+}
+
+.popup-active .popup-dialog .popup-content h3 {
+	color: white;
+}
+
+.popup-active .popup-dialog .popup-content .btn-main {
+	margin: 1rem;
+	padding: .5rem 1rem;
+	border-radius: .5rem;
+	border: 0;
+	cursor: pointer;
+	box-shadow:
+		0 4px 6px -1px rgba(0, 190, 240, .1),
+		0 2px 4px -1px rgba(0, 190, 240, .06);
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, .9);
+	background-color: #0071cf;
+	transition: .2s background-color;
+}
+
+.popup-active .popup-dialog .popup-content .btn {
+	padding: .5rem 1rem;
+	border-radius: .5rem;
+	border: 0;
+	cursor: pointer;
+	box-shadow:
+		0 4px 6px -1px rgba(0, 190, 240, .1),
+		0 2px 4px -1px rgba(0, 190, 240, .06);
+	text-transform: uppercase;
+}
+
+.popup-active .popup-dialog .popup-background {
+	opacity: .8;
+	background: black;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.alert {
+	background: white;
+	border-radius: .25rem;
+	margin: .5rem 0;
+	text-align: center;
+	color: #0537c1;
+	width: 100%;
+	padding: 1rem;
+	box-sizing: border-box;
+}
+
+.flag-dk {
+	background-image: url(../assets/flag-dk.svg);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 18px;
+	margin-right: 16px;
+}
+
+.flag-gb {
+	background-image: url(../assets/flag-gb.svg);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 18px;
+	margin-right: 16px;
+}
+
+.flag-gl {
+	background-image: url(../assets/flag-gl.svg);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 18px;
+	margin-right: 16px;
+}
+
+.video-headline{
+	margin-top:4rem;
+}
+
+.video-group {
+	width: 100%;
+	max-width: 80%;
+	box-sizing: border-box;
+	margin: 0 auto;
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+	text-align: center;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.video-player {
+	margin: 0 auto;
+	margin-top: 1rem;
+	border-radius: .5rem;
+	max-width:1200px;
+	overflow: hidden;
+	box-shadow: 0 25px 50px -12px rgb(0 0 0 / 25%);
+	border: 1px solid #fff;
+	line-height: 0;
+}
+
+.video-list {
+	list-style: none;
+	margin: 0 auto;
+	padding: 0;
+	display: grid;
+	margin-bottom: 2rem;
+	margin-top: 2rem;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	grid-column-gap: 2rem;
+	max-width: 100%;
+}
+
+.video-list li {
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	padding: 2rem 1rem;
+	box-sizing: content-box;
+	border-radius: .25rem;
+	transition: all .4s;
+	cursor: pointer;
+	position: relative;
+	margin-bottom:2rem;
+}
+
+.video-list li:hover,
+.video-list li:focus {
+	border: 1px solid rgba(255, 255, 255, 1);
+	background-color: #2d77d3;
+}
+
+.video-list li.active {
+	box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+	border-color: rgba(255, 255, 255, 0.3);
+}
+
+.video-list li p {
+	margin-bottom:2rem;
+}
+
+.video-list li .play-icon{
+	opacity: 0;
+	border-radius: 50%;
+	box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+	background:  #0537c1;
+	display:block;
+	position:absolute;
+	right:calc(50% - 16px);
+	top:-16px;
+	width:32px;
+	height:32px;
+	background-image:url(../assets/play.svg);
+	transform: translateY(10px);
+	transition: all .2s;
+}
+
+.video-list li.active .play-icon{
+	transform: translateY(0px);
+	opacity: 1;
+}
+
+.video-list figure.mitid-icon,
+.video-list figure.nemid-icon {
+	display: inline-block;
+	margin: 0;
+	margin-left: 4px;
+}
+
+@media screen and (max-width: 650px) {
+	.signin-form .input-group {
+		flex-direction: column;
+	}
+
+	.signin-form .radio-select {
+		margin-right: 0;
+		margin-bottom: 12px;
+	}
+}

@@ -1,0 +1,100 @@
+.help{
+    animation-fill-mode: forwards;
+    animation-delay: 2s;
+    animation: 3s show;
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+    @media screen and (max-width:800px){
+        display:none;
+    }
+    &:hover{
+        opacity: 1;
+    }
+    figure.info{
+        background-image: url(../assets/help/info.svg);
+        background-size: contain;
+        margin:0 auto;
+        height:40px;
+        width:40px;
+        margin:0 auto;
+    }
+    figure.confirm{
+        background-image: url(../assets/help/confirm.svg);
+        background-size: contain;
+        margin:0 auto;
+        height:40px;
+        width:40px;
+        margin:0 auto;
+    }
+    figure.signout{
+        background-image: url(../assets/help/signout.svg);
+        background-size: contain;
+        margin:0 auto;
+        height:40px;
+        width:40px;
+        margin:0 auto;
+    }
+    .help-box{
+        background:white;
+        box-shadow:0 25px 50px -12px rgba(0,0,0,.25);
+        padding: 2rem;
+        border-radius: 1rem;
+        color: black;
+    }
+    .arrow-up{
+        height:60px;
+        width:60px;
+        background-image: url(../assets/help/arrow-up.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+}
+
+#helpbox-01{
+    margin-top:3rem;
+    #arrow-01-01{
+        position: absolute;
+        right: -60px;
+        top: 0;
+    }
+    #arrow-01-02{
+        position: absolute;
+        left: -60px;
+        top: 0;
+        transform: scale(-1,1);
+    }
+}
+
+
+#helpbox-02{
+    position: absolute;
+    z-index: 10;
+    margin-left: 125px;
+    margin-top: 10px;
+    #arrow-02-01{
+        position: absolute;
+        right: -60px;
+        top: 0;
+    }
+}
+
+#helpbox-03{
+    position: absolute;
+    right: 135px;
+    margin-top: 50px;
+    #arrow-03-01{
+        background-image: url(../assets/help/arrow-up-blue.svg);
+        position: absolute;
+        right: -60px;
+        top: -30px;
+    }
+}
+
+
+
+@keyframes show {
+    0% { opacity: 0 }
+    50% { opacity: 0 }
+    100% { opacity: 1 }
+}
