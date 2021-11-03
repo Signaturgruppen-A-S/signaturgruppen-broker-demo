@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Authentication
-@using NetsBrokerIntegration.NetCore.Extensions
 @{
     Layout = null;
  ViewData["Title"] = "Secured login page";
@@ -39,11 +38,6 @@
         <header>
             <p id="welcome-back">Welcome back <strong>@(User.Claims.SingleOrDefault(c => c.Type.Equals("preferred_username", StringComparison.InvariantCultureIgnoreCase))?.Value ?? User.Claims.SingleOrDefault(id=>id.Type.Equals("sub")).Value)</strong></p>
             <a href="@Url.Action("Logout","Home")" class="btn btn-main btn-signout" id="signout">Sign out</a>
-            @if (User.CanStepUp())
-            {
-                <a href="@Url.Action("TwoFactor","Home")" class="btn btn-outline btn-stepup" id="stepup">Step up</a>
-            }
-
         </header>
         <div class="box">
             <div class="overview">

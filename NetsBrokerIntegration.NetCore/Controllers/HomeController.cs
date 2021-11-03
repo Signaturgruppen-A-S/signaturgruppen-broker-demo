@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetsBrokerIntegration.NetCore.Models;
-using NetsBrokerIntegration.NetCore.Extensions;
-using System.Linq;
 
 namespace NetsBrokerIntegration.NetCore.Controllers
 {
@@ -19,27 +17,6 @@ namespace NetsBrokerIntegration.NetCore.Controllers
         public IActionResult LoggedInSuccess() 
         {
             return View();
-        }
-
-        public async Task<IActionResult> TwoFactor()
-        {
-            if (User.Identity.IsAuthenticated && User.CanStepUp())
-            {
-                await HttpContext.SignOutAsync();
-                var idp = User.Claims.First(c => c.Type == "idp").Value;
-
-                if (idp == "mitid")
-                {
-                    return RedirectToAction(nameof(LoggedInSuccess), new
-                    {
-                        mitid_loa_value = User.GetStepUpTwoFactorClaim(),
-                        idp_values = idp,
-                        enable_step_up = true
-                    });
-                }
-            }
-
-            return RedirectToAction(nameof(LoggedInSuccess));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
