@@ -41,11 +41,10 @@
                 This is an demonstration of how<br />
                 Nets eID Broker can be used.
             </h4>
-            <button class="mitid-button" id="basic-signin-button" v-show="!persistedParameters.advancedOptions || !videoFlow" v-on:click="basicSignin()">
+            <button class="mitid-button" id="basic-signin-button" v-show="!persistedParameters.advancedOptions" v-on:click="basicSignin()">
                 Try out Nets eID Broker
             </button>
-            <button class="btn-text" id="advanced-signin-button" v-on:click="toggleAdvanced()" v-show="!videoFlow">Toggle Advanced Options</button>
-            <button class="btn-text" id="video-button" v-on:click="toggleVideo()" v-show="!persistedParameters.advancedOptions">Video demonstations</button> 
+            <button class="btn-text" id="advanced-signin-button" v-on:click="toggleAdvanced()">Toggle Advanced Options</button>
             <form class="signin-form" v-on:submit="callOP" v-show="persistedParameters.advancedOptions">
                 <h5>IDP options</h5>
                 <div class="alert" v-if="!idpSelected">
@@ -103,36 +102,6 @@
                             <span>NemID PID</span>
                         </span>
                     </label>
-
-                    <label class="checkbox-select">
-                        <input type="checkbox" name="mitid-transaction" v-model="persistedParameters.mitidSpecific.transactionSigning" />
-                        <span class="checkbox-control">
-                            <span class="checkbox-indicator"></span>
-                            <span>Sign text</span>
-                        </span>
-                    </label>
-                    <div v-show="persistedParameters.mitidSpecific.transactionSigning" class="textarea-content">
-                        <div class="input-group-compact ">
-                            <label class="radio-select">
-                                <input type="radio" name="mitid-transaction-sign-type" value="text" v-model="persistedParameters.mitidSpecific.transaction_sign_type" />
-                                <span class="radio-control">
-                                    Plain text
-                                </span>
-                            </label>
-                            <label class="radio-select">
-                                <input type="radio" name="mitid-transaction-sign-type" value="html" v-model="persistedParameters.mitidSpecific.transaction_sign_type" />
-                                <span class="radio-control">
-                                    HTML
-                                </span>
-                            </label>
-                        </div>
-                        <div v-show="persistedParameters.mitidSpecific.transaction_sign_type==='html'">
-                            <textarea v-model="persistedParameters.mitidSpecific.transaction_sign_content_html"></textarea>
-                        </div>
-                        <div v-show="persistedParameters.mitidSpecific.transaction_sign_type==='text'">
-                            <textarea v-model="persistedParameters.mitidSpecific.transaction_sign_content_plain"></textarea>
-                        </div>
-                    </div>
                 </div>
 
                 <label class="checkbox-multi-select" id="nemid-checkbox">
@@ -148,9 +117,6 @@
 
                     <h5>App transaction text</h5>
                     <input type="text" v-model="persistedParameters.nemidSpecific.apptransactiontext" />
-                    <div class="alert" v-if="persistedParameters.nemidSpecific.nemid_private_to_business && persistedParameters.nemidSpecific.transactionSigning">
-                        It's not possible to use both "Private to Business" and "Sign text" at the same time
-                    </div>
                     <label class="checkbox-select">
                         <input type="checkbox" name="nemid-transaction" v-model="persistedParameters.nemidSpecific.nemid_private_to_business" />
                         <span class="checkbox-control">
@@ -158,36 +124,6 @@
                             <span>Private to Business</span>
                         </span>
                     </label>
-                    <label class="checkbox-select">
-                        <input type="checkbox" name="nemid-transaction" v-model="persistedParameters.nemidSpecific.transactionSigning" />
-                        <span class="checkbox-control">
-                            <span class="checkbox-indicator"></span>
-                            <span>Sign text</span>
-                        </span>
-                    </label>
-                    <div v-show="persistedParameters.nemidSpecific.transactionSigning" class="textarea-content">
-                        <div class="input-group-compact ">
-                            <label class="radio-select">
-                                <input type="radio" name="nemid-transaction-sign-type" value="pdf" v-model="persistedParameters.nemidSpecific.transaction_sign_type" />
-                                <span class="radio-control">
-                                    PDF
-                                </span>
-                            </label>
-                            <label class="radio-select">
-                                <input type="radio" name="nemid-transaction-sign-type" value="text" v-model="persistedParameters.nemidSpecific.transaction_sign_type" />
-                                <span class="radio-control">
-                                    Plain text
-                                </span>
-                            </label>
-                        </div>
-                        <div v-show="persistedParameters.nemidSpecific.transaction_sign_type==='text'">
-                            <textarea v-model="persistedParameters.nemidSpecific.transaction_sign_content_plain"></textarea>
-                        </div>
-                        <div v-show="persistedParameters.nemidSpecific.transaction_sign_type==='pdf'">
-                            Please note, than an example PDF is used in this flow
-                        </div>
-
-                    </div>
                 </div>
 
                 <h5>User Experience</h5>
@@ -243,23 +179,6 @@
                     </label>
                 </div>
 
-                <h5>Scopes</h5>
-                <label class="checkbox-select">
-                    <input type="checkbox" name="transactionToken" v-model="persistedParameters.transactionToken" />
-                    <span class="checkbox-control">
-                        <span class="checkbox-indicator"></span>
-                        <span>Transaction Token</span>
-                    </span>
-                </label>
-                <label class="checkbox-select">
-                    <input type="checkbox" name="userinfoToken" v-model="persistedParameters.userinfoToken" />
-                    <span class="checkbox-control">
-                        <span class="checkbox-indicator"></span>
-                        <span>Userinfo Token</span>
-                    </span>
-                </label>
-
-
                 <h5>Extra Features</h5>
                 <label class="checkbox-select">
                     <input type="checkbox" name="cpr" v-model="persistedParameters.ssn" />
@@ -268,31 +187,10 @@
                         <span>Require Social Security Number</span>
                     </span>
                 </label>
-                <code v-if="debugMode">{AuthorityUrl}?clientID={yourClientID}&redirect_uri={yourRedirectURI}&{{queryBuilder}}</code>
-
                 <button type="submit" id="proceed-button" v-bind:disabled="!formValid">
                     Proceed
                 </button>
             </form>
-            <div v-show="videoFlow">
-                <h1 class="video-headline">{{videoList[activeVideo].name}}</h1>
-                <div class="video-player">
-                <video width="100%" height="100%" controls ref="videoRef" poster="/assets/video-placeholder.png">
-                    <source type="video/mp4">
-                    Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="video-group">
-                    <ul class="video-list">
-                        <li v-for="(video, index) in videoList" v-on:click="activateVideo(index)" v-bind:class="{'active': activeVideo===index}">
-                            <div class="play-icon"></div>
-                            <p>{{video.name}}</p>
-                            <figure v-if="video.mitidLogo" class="mitid-icon"></figure>
-                            <figure v-if="video.nemidLogo" class="nemid-icon"></figure>
-                        </li>
-                    </ul>
-                </div>
-            </div>
             </div>
     </div>
     <script src="~/js/vue.js" asp-append-version="true"></script>
