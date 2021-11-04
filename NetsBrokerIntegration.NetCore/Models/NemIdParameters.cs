@@ -4,12 +4,6 @@ namespace NetsBrokerIntegration.NetCore.Models
 {
     public class NemIdParameters
     {
-        [JsonPropertyName("sign_text")]
-        public string SignTextBase64 { get; set; }
-
-        [JsonPropertyName("sign_text_type")]
-        public string SignTextType { get; set; }
-
         [JsonPropertyName("code_app_trans_ctx")]
         public string CodeAppTransactionTextBase64 { get; set; }
 

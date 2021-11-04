@@ -107,7 +107,7 @@ namespace NetsBrokerIntegration.NetCore
         {
             context.ProtocolMessage.Parameters.Add("idp_values", BuildIdpValues(context));
             context.ProtocolMessage.Parameters.Add("idp_params", BuildIdpParameters(context));
-            
+
             HandleScopeFromQuery(context);
 
             if (context.Request.Query.ContainsKey("language"))
@@ -222,7 +222,7 @@ namespace NetsBrokerIntegration.NetCore
             {
                 idpParameters.NemIDParameters.CodeAppTransactionTextBase64 = context.Request.Query["nemid_apptransactiontext"];
             }
-            
+
             bool.TryParse(context.Request.Query["nemid_private_to_business"], out var enableNemIdToBusiness);
             idpParameters.NemIDParameters.PrivateNemIdToBusiness = enableNemIdToBusiness;
         }
@@ -237,28 +237,8 @@ namespace NetsBrokerIntegration.NetCore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseHttpsRedirection(); //Only use in development because production      is running in docker with a reverse proxy
-            }
-            else
-            {
-                var forwardOptions = new ForwardedHeadersOptions
-                {
-                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-                    RequireHeaderSymmetry = false
-                };
-
-                forwardOptions.KnownNetworks.Clear();
-                forwardOptions.KnownProxies.Clear();
-                app.UseForwardedHeaders(forwardOptions);
-
-
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            app.UseDeveloperExceptionPage();
+            app.UseHttpsRedirection(); //Only use in development because production      is running in docker with a reverse proxy
 
             app.UseStaticFiles();
 
