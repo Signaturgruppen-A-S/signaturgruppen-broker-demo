@@ -141,7 +141,7 @@ namespace NetsBrokerIntegration.NetCore
             foreach (var param in context.ProtocolMessage.Parameters)
             {
                 claims.Add(new Claim(param.Key, param.Value.ToString()));
-                if (param.Key == "client_id")
+                if (param.Key == "client_id" || param.Key == "redirect_uri")
                 {
                     continue;
                 }
