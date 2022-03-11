@@ -1,9 +1,12 @@
+using IdentityModel.Client;
+using IdentityModel.Jwk;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,13 +14,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NetsBrokerIntegration.NetCore.Constants;
+using NetsBrokerIntegration.NetCore.Extensions;
 using NetsBrokerIntegration.NetCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -54,10 +61,9 @@ namespace NetsBrokerIntegration.NetCore
             }
 
             Console.WriteLine("Start: Setting up OIDC");
-            Console.WriteLine($"Authority: {Configuration.GetValue<string>("AppSettings:Authority")}");
-            Console.WriteLine($"ClientId: {Configuration.GetValue<string>("AppSettings:ClientId")}");
-            Console.WriteLine($"ClientSecret: {Configuration.GetValue<string>("AppSettings:ClientSecret")?.Substring(0, 10) + "..." ?? "Not found!"}");
-            Console.WriteLine($"ClientSigningKey: {Configuration.GetValue<string>("AppSettings:ClientSigningKey")?.Substring(0, 10) + "..." ?? "Not found!"}");
+            Console.WriteLine($"Authority: {Configuration.GetAuthorityUrl()}");
+            Console.WriteLine($"ClientId: {Configuration.GetClientId()}");
+            Console.WriteLine($"ClientSecret: {Configuration.GetClientSecret()?.Substring(0, 10) + "..." ?? "Not found!"}");
 
             services.AddAuthentication(options =>
                 {
@@ -116,9 +122,9 @@ namespace NetsBrokerIntegration.NetCore
                 context.ProtocolMessage.Parameters.Add("language", CultureInfo.GetCultureInfo(language).TwoLetterISOLanguageName);
             }
 
-            if (Configuration.GetValue<bool>("AppSettings:SignRequest"))
+            if (Configuration.SignOrEncryptRequest())
             {
-                SignRequest(options, context);
+                await SignRequest(options, context);
             }
 
             await Task.CompletedTask;
@@ -135,7 +141,7 @@ namespace NetsBrokerIntegration.NetCore
             }
         }
 
-        private void SignRequest(OpenIdConnectOptions options, RedirectContext context)
+        private async Task SignRequest(OpenIdConnectOptions options, RedirectContext context)
         {
             var claims = new List<Claim>();
             foreach (var param in context.ProtocolMessage.Parameters)
@@ -159,9 +165,45 @@ namespace NetsBrokerIntegration.NetCore
                 SigningCredentials = GetSigningCredentials()
             };
 
+            await SetEncryption(securityTokenDesciptor, context);
+
             var jwtHandler = new JsonWebTokenHandler();
             string jwt = jwtHandler.CreateToken(securityTokenDesciptor);
             context.ProtocolMessage.SetParameter("request", jwt);
+        }
+
+        private async Task SetEncryption(SecurityTokenDescriptor securityTokenDesciptor, RedirectContext context)
+        {
+            if (Configuration.EncryptRequest())
+            {
+                var imemCache = context.HttpContext.RequestServices.GetService<IMemoryCache>();
+                imemCache.TryGetValue(CacheConstants.EncryptionKey, out IdentityModel.Jwk.JsonWebKey enckeyJson);
+
+                if(enckeyJson == null)
+                {
+                    var client = context.HttpContext.RequestServices.GetService<IHttpClientFactory>().CreateClient();
+                    var discoUrl = Configuration.GetDiscoveryUrl();
+                    var disco = await client.GetDiscoveryDocumentAsync(discoUrl);
+                    if (disco.IsError)
+                    {
+                        throw new Exception(disco.Error);
+                    }
+
+                    enckeyJson = disco.KeySet.Keys.FirstOrDefault(k => k.Use == "enc");
+                    imemCache.Set(CacheConstants.EncryptionKey, enckeyJson, DateTimeOffset.Now.AddHours(1));
+                }
+                
+                if (enckeyJson != null)
+                {
+                    securityTokenDesciptor.EncryptingCredentials = GetEncryptingCredentials(enckeyJson.X5c.First());
+                }
+            }
+        }
+
+        private EncryptingCredentials GetEncryptingCredentials(string encryptingCert)
+        {
+            var cert = new X509Certificate2(Convert.FromBase64String(encryptingCert));
+            return new X509EncryptingCredentials(cert);
         }
 
         private string BuildIdpValues(RedirectContext context)
