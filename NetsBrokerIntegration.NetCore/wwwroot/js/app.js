@@ -18,7 +18,12 @@ var app = new Vue({
                 require_psd2: false,
                 nemid_pid: false,
                 loa_value: 'https://data.gov.dk/concept/core/nsis/Substantial',
-                enable_step_up: false
+                enable_step_up: false,
+                transactionSigning: false,
+                sign_text_id: '',
+                sign_text_type: '',
+                default_sign_text_html: '<html>\r\n <style>\r\n  ul{\r\n      list-style: none;\r\n      margin: 0;\r\n      padding: 1rem;\r\n  }\r\n  ul li{\r\n      display: flex;\r\n      flex-direction: column;\r\n      margin-bottom: 2rem;\r\n  }\r\n\r\n  .key{\r\n      color: #adb5bd;\r\n      font-size: 90%;\r\n      margin-bottom: 5px;\r\n      text-transform: uppercase;\r\n  }\r\n  .value{\r\n      font-weight: bold;\r\n  }\r\n <\/style>\r\n <body>\r\n  <ul>\r\n   <li>\r\n    <div class=\"key\">From Account<\/div>\r\n    <div class=\"value\">Salary (51 3184 8481)<\/div>\r\n   <\/li>\r\n   <li>\r\n    <div class=\"key\">Reciever<\/div>\r\n    <div class=\"value\">EON (1551 458484448)<\/div>\r\n   <\/li>\r\n   <li>\r\n    <div class=\"key\">Reference<\/div>\r\n    <div class=\"value\">Invoice #15418144<\/div>\r\n   <\/li>\r\n   <li>\r\n    <div class=\"key\">Date<\/div>\r\n    <div class=\"value\">24 February 2020<\/div>\r\n   <\/li>\r\n   <li>\r\n    <div class=\"key\">Amount<\/div>\r\n    <div class=\"value total\">18.484,05<small> DKK<\/small><\/div>\r\n   <\/li>\r\n  <\/ul>\r\n <\/body>\r\n<\/html>',
+                default_sign_text_plain: 'Type your sign text here',
             },
             nemidSpecific: {
                 apptransactiontext: '',
@@ -160,6 +165,27 @@ var app = new Vue({
                 this.closeWindow()
                 window.location.href = '/Secure/Claims'
             }
+        },
+        convertFileToBase64: function() {
+            var files = event.target.files;
+            var fileToUpload = files[0];
+            var fileReader = new FileReader();
+            var fileBase64;
+
+            var fileType = fileToUpload.type;
+            if (fileType == 'application/pdf') {
+                this.persistedParameters.mitidSpecific.sign_text_type = 'pdf';
+            } else if (fileType == 'text/html') {
+                this.persistedParameters.mitidSpecific.sign_text_type = 'html';
+            } else {
+                this.persistedParameters.mitidSpecific.sign_text_type = 'text';
+            }
+
+            fileReader.onload = function (fileLoadedEvent) {
+                fileBase64 = fileLoadedEvent.target.result;
+            }
+
+            filereader.readAsDataUrl(fileToUpload);
         }
     },
     created: function () {

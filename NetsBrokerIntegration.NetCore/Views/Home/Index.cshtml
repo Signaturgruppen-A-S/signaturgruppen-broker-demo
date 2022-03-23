@@ -102,6 +102,45 @@
                             <span>NemID PID</span>
                         </span>
                     </label>
+                    <label class="checkbox-select">
+                        <input type="checkbox" name="mitid-transaction" v-model="persistedParameters.mitidSpecific.transactionSigning" />
+                        <span class="checkbox-control">
+                            <span class="checkbox-indicator"></span>
+                            <span>Sign Text ID</span>
+                        </span>
+                    </label>
+                    <div v-show="persistedParameters.mitidSpecific.transactionSigning" class="textarea-content">
+                        <div class="input-group-compact">
+                            <label class="radio-select">
+                                <input type="radio" name="mitid-transaction-sign-text-type" value="text" v-model="persistedParameters.mitidSpecific.sign_text_type" />
+                                <span class="radio-control">
+                                    Plain text
+                                </span>
+                            </label>
+                            <label class="radio-select">
+                                <input type="radio" name="mitid-transaction-sign-text-type" value="html" v-model="persistedParameters.mitidSpecific.sign_text_type" />
+                                <span class="radio-control">
+                                    HTML
+                                </span>
+                            </label>
+                            <label class="radio-select">
+                                <input type="radio" name="mitid-transaction-sign-text-type" value="pdf" v-model="persistedParameters.mitidSpecific.sign_text_type" />
+                                <span class="radio-control">
+                                    PDF
+                                </span>
+                            </label>
+                        </div>
+                        <div v-show="persistedParameters.mitidSpecific.sign_text_type==='html'">
+                            <textarea v-model="persistedParameters.mitidSpecific.default_sign_text_html"></textarea>
+                        </div>
+                        <div v-show="persistedParameters.mitidSpecific.sign_text_type==='text'">
+                            <textarea v-model="persistedParameters.mitidSpecific.default_sign_text_plain"></textarea>
+                        </div>
+                        <div v-show="persistedParameters.mitidSpecific.sign_text_type==='pdf'">
+                            Please note, than an example PDF is used in this flow, unless a PDF is specified
+                            <input type="file" name="mitid-transaction-file-input" accept="application/pdf" v-on:change="convertFileToBase64();" />
+                        </div>
+                    </div>
                 </div>
 
                 <label class="checkbox-multi-select" id="nemid-checkbox">
