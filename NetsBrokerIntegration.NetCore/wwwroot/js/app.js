@@ -182,16 +182,30 @@ var app = new Vue({
                 window.location.href = '/Secure/Claims'
             }
         },
-        convertFileToBase64: function() {
+        handleSignTextFile: function() {
             var files = event.target.files;
             var fileToUpload = files[0];
             var fileReader = new FileReader();
 
+            var filetype = fileToUpload.type;
+            console.log(filetype);
+
             fileReader.onload = function (fileLoadedEvent) {
-                this.persistedParameters.mitidSpecific.sign_text_base64 = fileLoadedEvent.target.result;
+                var result;
+                if (filetype === 'application/pdf') {
+                    result = fileLoadedEvent.target.result;
+                } else {
+                    result = this.b64(fileLoadedEvent.target.result);
+                }
+
+                this.persistedParameters.mitidSpecific.sign_text_base64 = result;
             }
 
-            filereader.readAsDataUrl(fileToUpload);
+            if (filetype === 'application/pdf') {
+                fileReader.readAsDataUrl(fileToUpload);
+            } else {
+                fileReader.readAsText(fileToUpload);
+            }
         }
     },
     created: function () {

@@ -525,7 +525,7 @@ code:hover {
   }
 
   .signin-form input[type="file"]::before {
-	content: 'Select an pdf file';
+	content: 'Select or drag a file';
 	display: inline-block;
 	border: 1px solid #fff;
 	border-radius: 4px;
