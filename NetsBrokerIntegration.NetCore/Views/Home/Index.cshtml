@@ -106,7 +106,7 @@
                         <input type="checkbox" name="mitid-transaction" v-model="persistedParameters.mitidSpecific.transactionSigning" />
                         <span class="checkbox-control">
                             <span class="checkbox-indicator"></span>
-                            <span>Sign Text ID</span>
+                            <span>Transaction signing</span>
                         </span>
                     </label>
                     <div v-show="persistedParameters.mitidSpecific.transactionSigning" class="textarea-content">
@@ -137,8 +137,8 @@
                             <textarea v-model="persistedParameters.mitidSpecific.default_sign_text_plain"></textarea>
                         </div>
                         <div v-show="persistedParameters.mitidSpecific.sign_text_type==='pdf'">
-                            Please note, than an example PDF is used in this flow, unless a PDF is specified
                             <input type="file" name="mitid-transaction-file-input" accept="application/pdf" v-on:change="convertFileToBase64();" />
+                            <div class="alert">Please note, than an example PDF is used in this flow, unless a PDF is specified</div>
                         </div>
                     </div>
                 </div>

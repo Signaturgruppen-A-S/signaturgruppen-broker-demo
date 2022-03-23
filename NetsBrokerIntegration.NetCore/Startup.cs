@@ -23,6 +23,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -112,7 +113,7 @@ namespace NetsBrokerIntegration.NetCore
         private async Task SetCustomAuthParameters(OpenIdConnectOptions options, RedirectContext context)
         {
             context.ProtocolMessage.Parameters.Add("idp_values", BuildIdpValues(context));
-            context.ProtocolMessage.Parameters.Add("idp_params", BuildIdpParameters(context));
+            context.ProtocolMessage.Parameters.Add("idp_params", await BuildIdpParametersAsync(context));
 
             HandleScopeFromQuery(context);
 
@@ -226,7 +227,7 @@ namespace NetsBrokerIntegration.NetCore
             return idpValues.Any() ? idpValues.Aggregate((i, j) => i + " " + j) : "";
         }
 
-        private static string BuildIdpParameters(RedirectContext context)
+        private async Task<string> BuildIdpParametersAsync(RedirectContext context)
         {
             var idpParameters = new IdpParameters();
 
@@ -237,7 +238,7 @@ namespace NetsBrokerIntegration.NetCore
 
             if (context.Request.Query.ContainsKey("mitidEnabled") || context.Request.Query["idp_values"] == "mitid")
             {
-                SetupMitIdParams(context, idpParameters);
+                await SetupMitIdParamsAsync(context, idpParameters);
             }
 
             var options = new JsonSerializerOptions
@@ -247,7 +248,7 @@ namespace NetsBrokerIntegration.NetCore
             return JsonSerializer.Serialize(idpParameters, options);
         }
 
-        private static void SetupMitIdParams(RedirectContext context, IdpParameters idpParameters)
+        private async Task SetupMitIdParamsAsync(RedirectContext context, IdpParameters idpParameters)
         {
             idpParameters.MitIdParameters.ReferenceText = context.Request.Query["mitid_reference_text"];
             var requirePsd2 = bool.TryParse(context.Request.Query["mitid_require_psd2"], out bool parsedPsd2Result);
@@ -256,6 +257,18 @@ namespace NetsBrokerIntegration.NetCore
             idpParameters.MitIdParameters.LoaValue = context.Request.Query["mitid_loa_value"];
             var enableStepUp = bool.TryParse(context.Request.Query["enable_step_up"], out bool parsedStepUpResult);
             idpParameters.MitIdParameters.EnableStepUp = enableStepUp && parsedStepUpResult;
+
+            if (bool.TryParse(context.Request.Query["mitid_transaction_signing"], out bool parsedTransactionSigningResult) && parsedTransactionSigningResult)
+            {
+                var response = await new HttpClient().PostAsJsonAsync(Configuration.GetValue<string>("AppSettings:SignTextApiUri"), new SignTextApiRequest
+                {
+                    Text = context.Request.Query["mitid_sign_text_base64"],
+                    Type = context.Request.Query["mitid_sign_text_type"]
+                });
+
+                var responseContent = await response.Content.ReadFromJsonAsync<SignTextApiResponse>();
+                idpParameters.MitIdParameters.SignTextId = responseContent.SignTextId;
+            }
         }
 
         private static void SetupNemIdParams(RedirectContext context, IdpParameters idpParameters)
