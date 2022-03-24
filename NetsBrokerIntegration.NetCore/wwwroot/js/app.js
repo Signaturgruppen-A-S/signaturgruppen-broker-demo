@@ -62,6 +62,9 @@ var app = new Vue({
             if (this.persistedParameters.mitidSpecific.require_psd2) {
                 paramsValues.mitid_require_psd2 = this.persistedParameters.mitidSpecific.require_psd2
             }
+            if (this.persistedParameters.mitidSpecific.sign_text_id) {
+                paramsValues.mitid_sign_text_id = this.persistedParameters.mitidSpecific.sign_text_id;
+            }
             if (this.persistedParameters.mitidSpecific.nemid_pid) {
                 paramsValues.nemid_pid = this.persistedParameters.mitidSpecific.nemid_pid
             }
@@ -70,21 +73,6 @@ var app = new Vue({
             }
             if (this.persistedParameters.nemidSpecific.apptransactiontext) {
                 paramsValues.nemid_apptransactiontext = this.b64(this.persistedParameters.nemidSpecific.apptransactiontext)
-            }
-            if (this.persistedParameters.mitidSpecific.transactionSigning) {
-                if (this.persistedParameters.mitidSpecific.sign_text_type === 'html') {
-                    this.persistedParameters.mitidSpecific.sign_text_base64 = this.b64(this.persistedParameters.mitidSpecific.default_sign_text_html);
-                }
-                if (this.persistedParameters.mitidSpecific.sign_text_type === 'text') {
-                    this.persistedParameters.mitidSpecific.sign_text_base64 = this.b64(this.persistedParameters.mitidSpecific.default_sign_text_plain);
-                }
-                if (this.persistedParameters.mitidSpecific.sign_text_type === 'pdf' && !this.persistedParameters.mitidSpecific.sign_text_base64.length) {
-                    this.persistedParameters.mitidSpecific.sign_text_base64 = this.persistedParameters.mitidSpecific.default_sign_text_pdf_base64;
-                }
-
-                paramsValues.mitid_transaction_signing = this.persistedParameters.mitidSpecific.transactionSigning;
-                paramsValues.mitid_sign_text_base64 = this.persistedParameters.mitidSpecific.sign_text_base64;
-                paramsValues.mitid_sign_text_type = this.persistedParameters.mitidSpecific.sign_text_type;
             }
             let paramsValuesEncoded = ''
             for (var prop in paramsValues) {
@@ -179,10 +167,6 @@ var app = new Vue({
                 window.location.href = '/Secure/Claims'
             }
         },
-        updateSignTextId: function (id) {
-            this.persistedParameters.mitidSpecific.sign_text_id = id;
-            console.log("update id: " + id);
-        },
         handleSignTextFile: function() {
             var files = event.target.files;
             var fileToUpload = files[0];
@@ -193,11 +177,10 @@ var app = new Vue({
 
             fileReader.onload = function (fileLoadedEvent) {
                 var base64Result;
-                if (contentType === 'application/pdf') {
+                if (fileExtension === 'pdf') {
                     base64Result = fileLoadedEvent.target.result.split(';base64,')[1];
-                } else {
+                } else if (fileExtension === 'text' || fileExtension === 'html') {
                     base64Result = app.b64(fileLoadedEvent.target.result);
-                    console.log(base64Result);
                 }
 
                 var requestOptions = {
@@ -219,7 +202,6 @@ var app = new Vue({
                         app.persistedParameters.mitidSpecific.sign_text_id = data.signTextId;
                     });
             }
-
             if (fileExtension === 'pdf') {
                 fileReader.readAsDataURL(fileToUpload);
             } else {
@@ -227,7 +209,7 @@ var app = new Vue({
             }
         },
         getFileExtensionFromContentType(contentType) {
-            if (contentType === 'application/json') {
+            if (contentType === 'application/pdf') {
                 return 'pdf';
             }
             if (contentType === 'text/plain') {

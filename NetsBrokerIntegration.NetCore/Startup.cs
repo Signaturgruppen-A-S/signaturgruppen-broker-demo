@@ -254,6 +254,8 @@ namespace NetsBrokerIntegration.NetCore
             idpParameters.MitIdParameters.LoaValue = context.Request.Query["mitid_loa_value"];
             var enableStepUp = bool.TryParse(context.Request.Query["enable_step_up"], out bool parsedStepUpResult);
             idpParameters.MitIdParameters.EnableStepUp = enableStepUp && parsedStepUpResult;
+
+            idpParameters.MitIdParameters.SignTextId = context.Request.Query["mitid_sign_text_id"];
         }
 
         private static void SetupNemIdParams(RedirectContext context, IdpParameters idpParameters)
