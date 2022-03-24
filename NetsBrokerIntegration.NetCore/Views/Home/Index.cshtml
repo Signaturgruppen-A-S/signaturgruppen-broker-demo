@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration configuration
+@{
     ViewData["Title"] = "Home Page";
     Layout = null;
 }
@@ -103,8 +105,8 @@
                         </span>
                     </label>
 
-                    <input type="file" name="mitid-transaction-file-input" accept="application/pdf,text/html,text/plain" v-on:change="handleSignTextFile();" />
-                    <div type="text" v-show="persistedParameters.mitidSpecific.sign_text_id" v-model="persistedParameters.mitidSpecific.sign_text_id"></div>
+                    <input type="file" name="mitid-transaction-file-input" accept=".pdf,.html,.txt" v-on:change="handleSignTextFile();" />
+                    <div class="alert" id="sign-text-id" v-show="persistedParameters.mitidSpecific.sign_text_id">Sign text ID: {{persistedParameters.mitidSpecific.sign_text_id}}</div>
                 </div>
 
                 <label class="checkbox-multi-select" id="nemid-checkbox">
@@ -198,6 +200,9 @@
     </div>
     <script src="~/js/vue.js" asp-append-version="true"></script>
     <script src="~/js/app.js" asp-append-version="true"></script>
+    <script>
+        app.signTextApiUri = @Json.Serialize(configuration["AppSettings:SignTextApiUri"]);
+    </script>
 </body>
 
 </html>
