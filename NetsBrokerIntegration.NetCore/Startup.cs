@@ -1,10 +1,8 @@
 using IdentityModel.Client;
-using IdentityModel.Jwk;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -179,7 +177,7 @@ namespace NetsBrokerIntegration.NetCore
                 var imemCache = context.HttpContext.RequestServices.GetService<IMemoryCache>();
                 imemCache.TryGetValue(CacheConstants.EncryptionKey, out IdentityModel.Jwk.JsonWebKey enckeyJson);
 
-                if(enckeyJson == null)
+                if (enckeyJson == null)
                 {
                     var client = context.HttpContext.RequestServices.GetService<IHttpClientFactory>().CreateClient();
                     var discoUrl = Configuration.GetDiscoveryUrl();
@@ -192,7 +190,7 @@ namespace NetsBrokerIntegration.NetCore
                     enckeyJson = disco.KeySet.Keys.FirstOrDefault(k => k.Use == "enc");
                     imemCache.Set(CacheConstants.EncryptionKey, enckeyJson, DateTimeOffset.Now.AddHours(1));
                 }
-                
+
                 if (enckeyJson != null)
                 {
                     securityTokenDesciptor.EncryptingCredentials = GetEncryptingCredentials(enckeyJson.X5c.First());
@@ -256,6 +254,8 @@ namespace NetsBrokerIntegration.NetCore
             idpParameters.MitIdParameters.LoaValue = context.Request.Query["mitid_loa_value"];
             var enableStepUp = bool.TryParse(context.Request.Query["enable_step_up"], out bool parsedStepUpResult);
             idpParameters.MitIdParameters.EnableStepUp = enableStepUp && parsedStepUpResult;
+
+            idpParameters.MitIdParameters.SignTextId = context.Request.Query["mitid_sign_text_id"];
         }
 
         private static void SetupNemIdParams(RedirectContext context, IdpParameters idpParameters)
