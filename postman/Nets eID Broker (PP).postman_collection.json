@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "cee70153-d4b9-47b8-ab6f-0d982d6d2d9c",
+		"name": "Nets eID Broker (PP)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Discovery info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{authority_url}}/.well-known/openid-configuration",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						".well-known",
+						"openid-configuration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication request (WEB)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pp.netseidbroker.dk/op/connect/authorize?client_id={{client_id}}&redirect_uri=https://openidconnect.net/callback&response_type=code&scope=openid mitid",
+					"protocol": "https",
+					"host": [
+						"pp",
+						"netseidbroker",
+						"dk"
+					],
+					"path": [
+						"op",
+						"connect",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "{{client_id}}"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://openidconnect.net/callback"
+						},
+						{
+							"key": "response_type",
+							"value": "code"
+						},
+						{
+							"key": "scope",
+							"value": "openid mitid"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get tokens with Code",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "text"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{redirect_uri}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{authority_url}}/connect/token",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get UserInfo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ACCESStoken"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{authority_url}}/connect/userinfo",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						"connect",
+						"userinfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CPR Match",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ACCESStoken"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cpr\": \"1909009193\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{authority_url}}/api/v1/mitid/matchCpr",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"mitid",
+						"matchCpr"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ACCESStoken",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"idtoken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IjA0ODA1OEJCNTlGNEQzMDA3MDQ1ODk2RkQ0ODhDRTgxRjRFQjQ5MjMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3BwLm5ldHNlaWRicm9rZXIuZGsvb3AiLCJuYmYiOjE2NDg0NTU2MzcsImlhdCI6MTY0ODQ1NTYzNywiZXhwIjoxNjQ4NDU1OTM3LCJhdWQiOiIwYTc3NWE4Ny04NzhjLTRiODMtYWJlMy1lZTI5YzcyMGMzZTciLCJhbXIiOlsiY29kZV9hcHAiXSwiYXRfaGFzaCI6IkZwcVJ6bkVTeE9OVHdteFVfcWVsUWciLCJzdWIiOiI1ZTMzZmVlYS03YWQyLTRjMGQtYjNlOS1kODQ3MjZjMDcxNzEiLCJhdXRoX3RpbWUiOjE2NDg0NTE4NzAsImlkcCI6Im1pdGlkIiwiYWNyIjoiaHR0cHM6Ly9kYXRhLmdvdi5kay9jb25jZXB0L2NvcmUvbnNpcy9TdWJzdGFudGlhbCIsIm5lYl9zaWQiOiJkMDdlZDhkMi1kYzgzLTQ1ZjQtOTQ5OS1kMzhhZjVjMDI5MTciLCJsb2EiOiJodHRwczovL2RhdGEuZ292LmRrL2NvbmNlcHQvY29yZS9uc2lzL1N1YnN0YW50aWFsIiwiaWRlbnRpdHlfdHlwZSI6InByaXZhdGUiLCJ0cmFuc2FjdGlvbl9pZCI6ImJiOWM5N2FiLTM3MTMtNGZlYi04OWM0LTYzYzg0ZGQ4YWUzYyIsInNlc3Npb25fZXhwaXJ5IjoiMTY0ODQ2ODA2OCJ9.fcyFDrjPFLSJt_xiArBDd2Ihfefi3wtGG36ib4hGsvy7fKfJwhTu6ZVf2Mbat7-ouhsqMAgenBDEceqqzl2mxV2q46gLXuIfloKiw202BZOWwfXNUS9MprCbfEDv3srn_PuIaxxdqe0LLWWtWIUCwn9neJslxb5VCYcXm25LTaKDHI6MNKOEmojm__pqzsYuDdgr6-fFwQYSAK63-tPd0H1Yt5IYmE5a-1e7w7JLA5Y-V99Cbj0e1GvMUrRwjyEiGKBlsD9wnNUXXfjgsWqi_QJ1CQN1TEfXCehTdyXcIYvc-FsP-A43jHjNnPfSTvLyDnr2UefszjfRK5vaXk_KMg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{authority_url}}/api/v1/session/logout",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"session",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "client_secret",
+			"value": "rnlguc7CM/wmGSti4KCgCkWBQnfslYr0lMDZeIFsCJweROTROy2ajEigEaPQFl76Py6AVWnhYofl/0oiSAgdtg=="
+		},
+		{
+			"key": "redirect_uri",
+			"value": "https://openidconnect.net/callback"
+		},
+		{
+			"key": "client_id",
+			"value": "0a775a87-878c-4b83-abe3-ee29c720c3e7"
+		},
+		{
+			"key": "authority_url",
+			"value": "https://pp.netseidbroker.dk/op"
+		}
+	]
+}
