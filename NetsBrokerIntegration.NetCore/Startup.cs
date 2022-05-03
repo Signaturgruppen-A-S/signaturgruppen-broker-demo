@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using NetsBrokerIntegration.NetCore.Constants;
+using NetsBrokerIntegration.NetCore.Crypto;
 using NetsBrokerIntegration.NetCore.Extensions;
 using NetsBrokerIntegration.NetCore.Models;
 using System;
@@ -24,6 +25,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
@@ -203,8 +205,15 @@ namespace NetsBrokerIntegration.NetCore
         private EncryptingCredentials GetEncryptingCredentials(string encryptingCert)
         {
             var cert = new X509Certificate2(Convert.FromBase64String(encryptingCert));
-            return new X509EncryptingCredentials(cert);
+            
+            var encCreds = new EncryptingCredentials(new X509SecurityKey(cert), "RSA-OAEP-256", "A256CBC-HS512")
+            {
+                CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false, CustomCryptoProvider = new RsaCryptoProvider() }
+            };
+
+            return encCreds;
         }
+
 
         private string BuildIdpValues(RedirectContext context)
         {
