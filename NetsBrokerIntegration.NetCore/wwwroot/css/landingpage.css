@@ -511,6 +511,32 @@ code:hover {
 	outline: #0071cf auto;
 }
 
+.signin-form input[type="file"]{
+	margin-top:1rem;
+	border: 1px solid #fff;
+	border-radius: 4px;
+	padding: 1rem;
+	width:100%;
+	box-sizing: border-box;
+}
+
+.signin-form input[type="file"]::-webkit-file-upload-button {
+	visibility: hidden;
+  }
+
+  .signin-form input[type="file"]::before {
+	content: 'Select or drag a file';
+	display: inline-block;
+	border: 1px solid #fff;
+	border-radius: 4px;
+	padding: 1rem;
+	margin-right:0;
+	outline: none;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	cursor: pointer;
+  }
+
 figure.popup {
 	background-image: url(../assets/popup.svg);
 	background-repeat: no-repeat;
