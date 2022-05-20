@@ -2,9 +2,6 @@
 
 Integration clients for the Nets MitID Broker.
 
-## MitID testusers
-See https://pp.mitid.dk/test-tool/frontend/#/create-identity for administration of MitID test users.
-
 ## Signing and encryption of requests
 in the appsettings, both signing and encryption can be enabled by setting the appropriate bool enablers to true.
 Always consider the need and requirements for your application and integration before enabling signing and encryption.
