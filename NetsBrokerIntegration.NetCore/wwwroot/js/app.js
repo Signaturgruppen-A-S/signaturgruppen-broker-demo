@@ -11,22 +11,13 @@ var app = new Vue({
             advancedOptions: false,
             language: 'da-DK',
             idp: {
-                mitid: true,
-                nemid: true
+                mitid: true
             },
             mitidSpecific: {
                 reference_text: '',
-                require_psd2: false,
-                nemid_pid: false,
-                loa_value: 'https://data.gov.dk/concept/core/nsis/Substantial',
-                enable_step_up: false,
-                transactionSigning: false,
-                sign_text_id: ''
+                loa_value: 'https://data.gov.dk/concept/core/nsis/Substantial'
             },
-            nemidSpecific: {
-                apptransactiontext: '',
-                nemid_private_to_business: false,
-            },
+            signtext_id: '',
             uxType: 'redirect',
             ssn: false
         }
@@ -37,13 +28,7 @@ var app = new Vue({
             let scope = []
             let acr = []
             paramsValues.mitidEnabled = this.persistedParameters.idp.mitid
-            paramsValues.nemidEnabled = this.persistedParameters.idp.nemid
             paramsValues.language = this.persistedParameters.language
-            if (paramsValues.nemidEnabled) {
-                scope.push('nemid')
-                acr = acr.concat(this.persistedParameters.nemidSpecific.acr)
-                paramsValues.nemid_private_to_business = this.persistedParameters.nemidSpecific.nemid_private_to_business
-            }
             if (paramsValues.mitidEnabled) {
                 scope.push('mitid')
             }
@@ -59,20 +44,11 @@ var app = new Vue({
             if (this.persistedParameters.mitidSpecific.reference_text) {
                 paramsValues.mitid_reference_text = this.b64(this.persistedParameters.mitidSpecific.reference_text)
             }
-            if (this.persistedParameters.mitidSpecific.require_psd2) {
-                paramsValues.mitid_require_psd2 = this.persistedParameters.mitidSpecific.require_psd2
-            }
-            if (this.persistedParameters.mitidSpecific.sign_text_id) {
-                paramsValues.mitid_sign_text_id = this.persistedParameters.mitidSpecific.sign_text_id;
-            }
-            if (this.persistedParameters.mitidSpecific.nemid_pid) {
-                paramsValues.nemid_pid = this.persistedParameters.mitidSpecific.nemid_pid
+            if (this.persistedParameters.signtext_id) {
+                paramsValues.signtext_id = this.persistedParameters.signtext_id;
             }
             if (this.persistedParameters.mitidSpecific.loa_value) {
                 paramsValues.mitid_loa_value = this.persistedParameters.mitidSpecific.loa_value
-            }
-            if (this.persistedParameters.nemidSpecific.apptransactiontext) {
-                paramsValues.nemid_apptransactiontext = this.b64(this.persistedParameters.nemidSpecific.apptransactiontext)
             }
             let paramsValuesEncoded = ''
             for (var prop in paramsValues) {
@@ -94,7 +70,7 @@ var app = new Vue({
             return !(this.persistedParameters.uxType === '');
         },
         idpSelected: function () {
-            return (this.persistedParameters.idp.mitid || this.persistedParameters.idp.nemid)
+            return (this.persistedParameters.idp.mitid)
         }
     },
     methods: {

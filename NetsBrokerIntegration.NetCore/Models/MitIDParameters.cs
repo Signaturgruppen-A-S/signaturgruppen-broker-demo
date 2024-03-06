@@ -19,7 +19,5 @@ namespace NetsBrokerIntegration.NetCore.Models
         [JsonPropertyName("enable_step_up")]
         public bool EnableStepUp { get; set; }
 
-        [JsonPropertyName("sign_text_id")]
-        public string SignTextId { get; set; }
     }
 }
