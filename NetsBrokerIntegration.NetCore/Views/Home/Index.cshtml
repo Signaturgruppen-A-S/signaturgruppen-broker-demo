@@ -37,7 +37,7 @@
         </header>
         <div class="content">
             <h1>
-                The easy way to<br />OpenID Connect
+                MitID integration demo
             </h1>
             <h4>
                 This is an demonstration of how<br />
@@ -48,19 +48,8 @@
             </button>
             <button class="btn-text" id="advanced-signin-button" v-on:click="toggleAdvanced()">Toggle Advanced Options</button>
             <form class="signin-form" v-on:submit="callOP" v-show="persistedParameters.advancedOptions">
-                <h5>IDP options</h5>
-                <div class="alert" v-if="!idpSelected">
-                    Please select at least one IDP
-                </div>
-                <label class="checkbox-multi-select" id="mitid-checkbox">
-                    <input type="checkbox" v-model="persistedParameters.idp.mitid" />
-                    <span class="checkbox-control">
-                        <span class="subject">
-                            <div class="checkbox-marker"></div>
-                            <span class="mitid-icon"></span>
-                        </span>
-                    </span>
-                </label>
+                <h5>MitID IDP options</h5>
+               
                 <div class="form-group" v-show="persistedParameters.idp.mitid">
                     <h5>Authentication Level</h5>
                     <div class="input-group">
@@ -88,47 +77,6 @@
 
                     <h5>Reference text</h5>
                     <input type="text" v-model="persistedParameters.mitidSpecific.reference_text" />
-
-                    <label class="checkbox-select">
-                        <input type="checkbox" name="psd2" v-model="persistedParameters.mitidSpecific.require_psd2" />
-                        <span class="checkbox-control">
-                            <span class="checkbox-indicator"></span>
-                            <span>Require PSD2</span>
-                        </span>
-                    </label>
-
-                    <label class="checkbox-select">
-                        <input type="checkbox" name="nemid_pid" v-model="persistedParameters.mitidSpecific.nemid_pid" />
-                        <span class="checkbox-control">
-                            <span class="checkbox-indicator"></span>
-                            <span>NemID PID</span>
-                        </span>
-                    </label>
-
-                    <input type="file" name="mitid-transaction-file-input" accept=".pdf,.html,.txt" v-on:change="handleSignTextFile();" />
-                    <div class="alert" id="sign-text-id" v-show="persistedParameters.mitidSpecific.sign_text_id">Sign text ID: {{persistedParameters.mitidSpecific.sign_text_id}}</div>
-                </div>
-
-                <label class="checkbox-multi-select" id="nemid-checkbox">
-                    <input type="checkbox" v-model="persistedParameters.idp.nemid" />
-                    <span class="checkbox-control">
-                        <span class="subject">
-                            <div class="checkbox-marker"></div>
-                            <span class="nemid-icon"></span>
-                        </span>
-                    </span>
-                </label>
-                <div class="form-group" v-show="persistedParameters.idp.nemid">
-
-                    <h5>App transaction text</h5>
-                    <input type="text" v-model="persistedParameters.nemidSpecific.apptransactiontext" />
-                    <label class="checkbox-select">
-                        <input type="checkbox" name="nemid-transaction" v-model="persistedParameters.nemidSpecific.nemid_private_to_business" />
-                        <span class="checkbox-control">
-                            <span class="checkbox-indicator"></span>
-                            <span>Private to Business</span>
-                        </span>
-                    </label>
                 </div>
 
                 <h5>User Experience</h5>
@@ -184,6 +132,10 @@
                     </label>
                 </div>
 
+                <h5>Upload PDF for Signtext API</h5>
+                <input type="file" name="mitid-transaction-file-input" accept=".pdf,.html,.txt" v-on:change="handleSignTextFile();" />
+                <div class="alert" id="sign-text-id" v-show="persistedParameters.signtext_id">Sign text ID: {{persistedParameters.signtext_id}}</div>
+
                 <h5>Extra Features</h5>
                 <label class="checkbox-select">
                     <input type="checkbox" name="cpr" v-model="persistedParameters.ssn" />
@@ -196,7 +148,7 @@
                     Proceed
                 </button>
             </form>
-            </div>
+        </div>
     </div>
     <script src="~/js/vue.js" asp-append-version="true"></script>
     <script src="~/js/app.js" asp-append-version="true"></script>

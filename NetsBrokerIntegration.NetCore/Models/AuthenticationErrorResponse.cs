@@ -6,7 +6,6 @@ namespace NetsBrokerIntegration.NetCore.Models
     {
         [BindProperty(Name = "error", SupportsGet = true)]
         public string Error { get; set; }
-        public string Error_Uri { get; set; }
         public string Error_Description { get; set; }
     }
 }

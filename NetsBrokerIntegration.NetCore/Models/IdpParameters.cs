@@ -6,8 +6,5 @@ namespace NetsBrokerIntegration.NetCore.Models
     {
         [JsonPropertyName("mitid")]
         public MitIdParameters MitIdParameters { get; set; } = new MitIdParameters();
-       
-        [JsonPropertyName("nemid")]
-        public NemIdParameters NemIDParameters { get; set; } = new NemIdParameters();
     }
 }

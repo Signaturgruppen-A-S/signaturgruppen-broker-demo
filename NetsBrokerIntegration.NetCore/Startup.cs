@@ -23,7 +23,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
@@ -63,7 +62,7 @@ namespace NetsBrokerIntegration.NetCore
             Console.WriteLine("Start: Setting up OIDC");
             Console.WriteLine($"Authority: {Configuration.GetAuthorityUrl()}");
             Console.WriteLine($"ClientId: {Configuration.GetClientId()}");
-            Console.WriteLine($"ClientSecret: {Configuration.GetClientSecret()?.Substring(0, 10) + "..." ?? "Not found!"}");
+            Console.WriteLine($"ClientSecret: {Configuration.GetClientSecret()?.Substring(0, 6) + "..." ?? "Not found!"}");
 
             services.AddAuthentication(options =>
                 {
@@ -85,7 +84,7 @@ namespace NetsBrokerIntegration.NetCore
                     options.CallbackPath = "/signin-oidc";
                     options.SignedOutRedirectUri = "/signout-oidc";
                     options.Scope.Clear();
-                    options.Scope.Add("openid mitid nemid");
+                    options.Scope.Add("openid mitid nemlogin privileges");
                     options.Events.OnRedirectToIdentityProvider = async context =>
                     {
                         await SetCustomAuthParameters(options, context);
@@ -98,7 +97,7 @@ namespace NetsBrokerIntegration.NetCore
                         {
                             queryParams = QueryHelpers.AddQueryString("", context.Request.Form?.ToDictionary(p => p.Key, p => p.Value.ToString()));
                         }
-
+                        
                         context.Response.Redirect("/Home/Error" + queryParams);
                         context.HandleResponse();
                         return Task.CompletedTask;
@@ -111,15 +110,22 @@ namespace NetsBrokerIntegration.NetCore
 
         private async Task SetCustomAuthParameters(OpenIdConnectOptions options, RedirectContext context)
         {
-            context.ProtocolMessage.Parameters.Add("idp_values", BuildIdpValues(context));
             context.ProtocolMessage.Parameters.Add("idp_params", BuildIdpParameters(context));
-
-            HandleScopeFromQuery(context);
 
             if (context.Request.Query.ContainsKey("language"))
             {
                 var language = context.Request.Query["language"];
                 context.ProtocolMessage.Parameters.Add("language", CultureInfo.GetCultureInfo(language).TwoLetterISOLanguageName);
+            }
+
+            if (context.Request.Query.ContainsKey("signtext_id"))
+            {
+                context.ProtocolMessage.Parameters.Add("signtext_id", context.Request.Query["signtext_id"]);
+            }
+
+            if (SetPromptLogin(context))
+            {
+                context.ProtocolMessage.Parameters.Add("prompt", "login");
             }
 
             if (Configuration.SignOrEncryptRequest())
@@ -130,15 +136,11 @@ namespace NetsBrokerIntegration.NetCore
             await Task.CompletedTask;
         }
 
-        private static void HandleScopeFromQuery(RedirectContext context)
+        private static bool SetPromptLogin(RedirectContext context)
         {
-            var queryScope = context.Request.Query["scope"].ToString();
-            if (!string.IsNullOrWhiteSpace(queryScope))
-            {
-                context.ProtocolMessage.Parameters.Remove("scope");
-                var scope = "openid " + context.Request.Query["scope"].ToString();
-                context.ProtocolMessage.Parameters.Add("scope", scope);
-            }
+            //might be other scenarios for prompt=login (force authentication)
+            return context.ProtocolMessage.Parameters.ContainsKey("signtext_id") 
+                && !context.ProtocolMessage.Parameters.ContainsKey("prompt");
         }
 
         private async Task SignRequest(OpenIdConnectOptions options, RedirectContext context)
@@ -212,40 +214,11 @@ namespace NetsBrokerIntegration.NetCore
             return encCreds;
         }
 
-
-        private string BuildIdpValues(RedirectContext context)
-        {
-            if (context.Request.Query.ContainsKey("idp_values"))
-            {
-                return context.Request.Query["idp_values"];
-            }
-
-            var idpValues = new List<string>();
-            if (context.Request.Query["mitidEnabled"] == "true")
-            {
-                idpValues.Add("mitid");
-            }
-
-            if (context.Request.Query["nemidEnabled"] == "true")
-            {
-                idpValues.Add("nemid");
-            }
-            return idpValues.Any() ? idpValues.Aggregate((i, j) => i + " " + j) : "";
-        }
-
         private static string BuildIdpParameters(RedirectContext context)
         {
             var idpParameters = new IdpParameters();
 
-            if (context.Request.Query.ContainsKey("nemidEnabled"))
-            {
-                SetupNemIdParams(context, idpParameters);
-            }
-
-            if (context.Request.Query.ContainsKey("mitidEnabled") || context.Request.Query["idp_values"] == "mitid")
-            {
-                SetupMitIdParams(context, idpParameters);
-            }
+            SetupMitIdParams(context, idpParameters);
 
             var options = new JsonSerializerOptions
             {
@@ -257,25 +230,7 @@ namespace NetsBrokerIntegration.NetCore
         private static void SetupMitIdParams(RedirectContext context, IdpParameters idpParameters)
         {
             idpParameters.MitIdParameters.ReferenceText = context.Request.Query["mitid_reference_text"];
-            var requirePsd2 = bool.TryParse(context.Request.Query["mitid_require_psd2"], out bool parsedPsd2Result);
-            idpParameters.MitIdParameters.RequirePsd2 = requirePsd2 && parsedPsd2Result;
-            idpParameters.MitIdParameters.EnableAppSwitch = true;
             idpParameters.MitIdParameters.LoaValue = context.Request.Query["mitid_loa_value"];
-            var enableStepUp = bool.TryParse(context.Request.Query["enable_step_up"], out bool parsedStepUpResult);
-            idpParameters.MitIdParameters.EnableStepUp = enableStepUp && parsedStepUpResult;
-
-            idpParameters.MitIdParameters.SignTextId = context.Request.Query["mitid_sign_text_id"];
-        }
-
-        private static void SetupNemIdParams(RedirectContext context, IdpParameters idpParameters)
-        {
-            if (context.Request.Query.ContainsKey("nemid_apptransactiontext"))
-            {
-                idpParameters.NemIDParameters.CodeAppTransactionTextBase64 = context.Request.Query["nemid_apptransactiontext"];
-            }
-
-            bool.TryParse(context.Request.Query["nemid_private_to_business"], out var enableNemIdToBusiness);
-            idpParameters.NemIDParameters.PrivateNemIdToBusiness = enableNemIdToBusiness;
         }
 
         private SigningCredentials GetSigningCredentials()
