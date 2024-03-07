@@ -105,10 +105,24 @@ namespace NetsBrokerIntegration.NetCore
                         context.HandleResponse();
                         return Task.CompletedTask;
                     };
+                    options.Events.OnTokenResponseReceived = context =>
+                    {
+                        AddTokenToAttributes(context, "transaction_token");
+                        return Task.CompletedTask;
+                    };
                     options.ClaimActions.MapAll();
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
                 });
+        }
+
+        private static void AddTokenToAttributes(TokenResponseReceivedContext context, string tokenName)
+        {
+            if (context.TokenEndpointResponse.Parameters.ContainsKey(tokenName))
+            {
+                var transactionToken = context.TokenEndpointResponse.Parameters[tokenName];
+                context.Properties.Items[$".Token.{tokenName}"] = transactionToken;
+            }
         }
 
         private async Task SetCustomAuthParameters(OpenIdConnectOptions options, RedirectContext context)
@@ -124,10 +138,7 @@ namespace NetsBrokerIntegration.NetCore
             if (context.Request.Query.ContainsKey("signtext_id"))
             {
                 context.ProtocolMessage.Parameters.Add("signtext_id", context.Request.Query["signtext_id"]);
-            }
-
-            if (SetPromptLogin(context))
-            {
+                context.ProtocolMessage.Parameters["scope"] = context.ProtocolMessage.Parameters["scope"] + " transaction_token";
                 context.ProtocolMessage.Parameters.Add("prompt", "login");
             }
 
@@ -137,13 +148,6 @@ namespace NetsBrokerIntegration.NetCore
             }
 
             await Task.CompletedTask;
-        }
-
-        private static bool SetPromptLogin(RedirectContext context)
-        {
-            //might be other scenarios for prompt=login (force authentication)
-            return context.ProtocolMessage.Parameters.ContainsKey("signtext_id") 
-                && !context.ProtocolMessage.Parameters.ContainsKey("prompt");
         }
 
         private async Task SignRequest(OpenIdConnectOptions options, RedirectContext context)
