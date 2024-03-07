@@ -23,7 +23,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
@@ -98,7 +97,7 @@ namespace NetsBrokerIntegration.NetCore
                         {
                             queryParams = QueryHelpers.AddQueryString("", context.Request.Form?.ToDictionary(p => p.Key, p => p.Value.ToString()));
                         }
-
+                        
                         context.Response.Redirect("/Home/Error" + queryParams);
                         context.HandleResponse();
                         return Task.CompletedTask;
@@ -124,12 +123,24 @@ namespace NetsBrokerIntegration.NetCore
                 context.ProtocolMessage.Parameters.Add("signtext_id", context.Request.Query["signtext_id"]);
             }
 
+            if (SetPromptLogin(context))
+            {
+                context.ProtocolMessage.Parameters.Add("prompt", "login");
+            }
+
             if (Configuration.SignOrEncryptRequest())
             {
                 await SignRequest(options, context);
             }
 
             await Task.CompletedTask;
+        }
+
+        private static bool SetPromptLogin(RedirectContext context)
+        {
+            //might be other scenarios for prompt=login (force authentication)
+            return context.ProtocolMessage.Parameters.ContainsKey("signtext_id") 
+                && !context.ProtocolMessage.Parameters.ContainsKey("prompt");
         }
 
         private async Task SignRequest(OpenIdConnectOptions options, RedirectContext context)

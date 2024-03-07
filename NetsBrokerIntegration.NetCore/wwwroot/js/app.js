@@ -96,8 +96,8 @@ var app = new Vue({
                     }
                     window.location.href = this.baseUrl + this.queryBuilder
                 }else if(this.persistedParameters.uxType==='popup'){
-                    if (this.persistedParameters.mitidSpecific.transactionSigning || this.persistedParameters.nemidSpecific.transactionSigning){
-                        this.popupwindow(this.baseUrl+this.queryBuilder, 'Sign in','878','640')
+                    if (this.persistedParameters.signtext_id){
+                        this.popupwindow(this.baseUrl+this.queryBuilder, 'Sign in','900','800')
                     } else {
                         let idpCount = 0;
                         for (let k in this.persistedParameters.idp) {
@@ -175,7 +175,7 @@ var app = new Vue({
                         return response.json();
                     })
                     .then(function (data) {
-                        app.persistedParameters.mitidSpecific.sign_text_id = data.signTextId;
+                        app.persistedParameters.signtext_id = data.signTextId;
                     });
             }
             if (fileExtension === 'pdf') {
