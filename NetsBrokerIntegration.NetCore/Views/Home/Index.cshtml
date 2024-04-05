@@ -132,9 +132,14 @@
                     </label>
                 </div>
 
-                <h5>Upload PDF for Signtext API</h5>
-                <input type="file" name="mitid-transaction-file-input" accept=".pdf,.html,.txt" v-on:change="handleSignTextFile();" />
-                <div class="alert" id="sign-text-id" v-show="persistedParameters.signtext_id">Sign text ID: {{persistedParameters.signtext_id}}</div>
+                <h5>Demo Signtext API with PAdES PDF</h5>
+                <label class="checkbox-select">
+                    <input type="checkbox" name="cpr" v-model="persistedParameters.signtextDemo" />
+                    <span class="checkbox-control">
+                        <span class="checkbox-indicator"></span>
+                        <span>Enable signtext demo</span>
+                    </span>
+                </label>
 
                 <h5>Extra Features</h5>
                 <label class="checkbox-select">

@@ -15,6 +15,23 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="stylesheet" href="/css/styles.css">
     <meta name="theme-color" content="#fafafa">
+    <script>
+        function downloadPdf(base64) {
+            var binaryString = window.atob(base64);
+            var binaryLen = binaryString.length;
+            var bytes = new Uint8Array(binaryLen);
+            for (var i = 0; i < binaryLen; i++) {
+                var ascii = binaryString.charCodeAt(i);
+                bytes[i] = ascii;
+            }
+            var blob = new Blob([bytes], { type: "application/pdf" });
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            var fileName = 'PAdES.pdf';
+            link.download = fileName;
+            link.click();
+        };
+    </script>
 </head>
 
 <body class="netbank">
@@ -64,7 +81,15 @@
                                 <div class="value">@prop.Value</div>
                             </li>
                         }
+                        @if (ViewBag.Pades != null)
+                        {
+                            <li>
+                                <div class="key">PAdES generated</div>
+                                <div class="value"><button onclick="downloadPdf('@ViewBag.Pades');">Download PAdES</button></div>
+                            </li>
+                        }
                     </ul>
+
                 </div>
             </div>
         </div>
