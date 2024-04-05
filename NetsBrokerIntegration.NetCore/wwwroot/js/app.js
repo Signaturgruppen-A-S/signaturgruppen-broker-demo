@@ -2,7 +2,6 @@ var app = new Vue({
     el: '#app',
     data: {
         baseUrl: '/Home/LoggedInSuccess?',
-        signTextApiUri: '',
         popupActivated: false,
         wref: {},
         debugMode: false,
@@ -17,9 +16,9 @@ var app = new Vue({
                 reference_text: '',
                 loa_value: 'https://data.gov.dk/concept/core/nsis/Substantial'
             },
-            signtext_id: '',
             uxType: 'redirect',
-            ssn: false
+            ssn: false,
+            signtextDemo: false
         }
     },
     computed: {
@@ -29,6 +28,7 @@ var app = new Vue({
             let acr = []
             paramsValues.mitidEnabled = this.persistedParameters.idp.mitid
             paramsValues.language = this.persistedParameters.language
+            paramsValues.signtextDemo = this.persistedParameters.signtextDemo
             if (paramsValues.mitidEnabled) {
                 scope.push('mitid')
             }
@@ -43,9 +43,6 @@ var app = new Vue({
             }
             if (this.persistedParameters.mitidSpecific.reference_text) {
                 paramsValues.mitid_reference_text = this.b64(this.persistedParameters.mitidSpecific.reference_text)
-            }
-            if (this.persistedParameters.signtext_id) {
-                paramsValues.signtext_id = this.persistedParameters.signtext_id;
             }
             if (this.persistedParameters.mitidSpecific.loa_value) {
                 paramsValues.mitid_loa_value = this.persistedParameters.mitidSpecific.loa_value
@@ -143,58 +140,6 @@ var app = new Vue({
                 window.location.href = '/Secure/Claims'
             }
         },
-        handleSignTextFile: function() {
-            var files = event.target.files;
-            var fileToUpload = files[0];
-            var fileReader = new FileReader();
-
-            var contentType = fileToUpload.type;
-            var fileExtension = this.getFileExtensionFromContentType(contentType);
-
-            fileReader.onload = function (fileLoadedEvent) {
-                var base64Result;
-                if (fileExtension === 'pdf') {
-                    base64Result = fileLoadedEvent.target.result.split(';base64,')[1];
-                } else if (fileExtension === 'text' || fileExtension === 'html') {
-                    base64Result = app.b64(fileLoadedEvent.target.result);
-                }
-
-                var requestOptions = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        text: base64Result,
-                        type: fileExtension
-                    })
-                };
-                fetch(app.signTextApiUri, requestOptions)
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .then(function (data) {
-                        app.persistedParameters.signtext_id = data.signTextId;
-                    });
-            }
-            if (fileExtension === 'pdf') {
-                fileReader.readAsDataURL(fileToUpload);
-            } else {
-                fileReader.readAsText(fileToUpload);
-            }
-        },
-        getFileExtensionFromContentType(contentType) {
-            if (contentType === 'application/pdf') {
-                return 'pdf';
-            }
-            if (contentType === 'text/plain') {
-                return 'text';
-            }
-            if (contentType === 'text/html') {
-                return 'html';
-            }
-        }
     },
     created: function () {
         window.addEventListener("message", this.receiveMessage, false)
