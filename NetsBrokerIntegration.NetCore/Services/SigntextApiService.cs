@@ -30,5 +30,17 @@ namespace NetsBrokerIntegration.NetCore.Services
             var signtextidContent = await signtextIdResponse.Content.ReadFromJsonAsync<SignTextApiResponse>();
             return signtextidContent.signTextId;
         }
+
+        public async Task<string> GetPAdES(string transactionToken)
+        {
+            var padesRequest = new
+            {
+                TransactionTokenJwt = transactionToken
+            };
+           
+            var padesResponse = await httpClient.PostAsJsonAsync("api/v1/pades", padesRequest);
+            var padesDocument = await padesResponse.Content.ReadFromJsonAsync<PadesDocument>();
+            return padesDocument.padesB64;
+        }
     }
 }

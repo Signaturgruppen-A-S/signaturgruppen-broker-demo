@@ -5,13 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using NetsBrokerIntegration.NetCore.Extensions;
 using NetsBrokerIntegration.NetCore.Services;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime;
 
 namespace NetsBrokerIntegration.NetCore
 {

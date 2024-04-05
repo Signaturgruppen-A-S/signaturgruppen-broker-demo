@@ -28,11 +28,13 @@ namespace NetsBrokerIntegration.NetCore.Services
     {
         private readonly IConfiguration configuration;
         private readonly SigntextApiService signtextApiService;
+        private readonly IMemoryCache memoryCache;
 
-        public OidcEvents(IConfiguration configuration, SigntextApiService signtextApiService)
+        public OidcEvents(IConfiguration configuration, SigntextApiService signtextApiService, IMemoryCache memoryCache)
         {
             this.configuration = configuration;
             this.signtextApiService = signtextApiService;
+            this.memoryCache = memoryCache;
         }
         public override async Task RedirectToIdentityProvider(RedirectContext context)
         {
@@ -54,7 +56,7 @@ namespace NetsBrokerIntegration.NetCore.Services
 
         public override Task TokenResponseReceived(TokenResponseReceivedContext context)
         {
-            AddTokenToAttributes(context, "transaction_token");
+            AddTransactionTokenToAttributes(context);
             return Task.CompletedTask;
         }
 
@@ -95,6 +97,7 @@ namespace NetsBrokerIntegration.NetCore.Services
             context.ProtocolMessage.Parameters["scope"] = context.ProtocolMessage.Parameters["scope"] + " transaction_token";
             context.ProtocolMessage.Parameters.Add("prompt", "login");
             context.ProtocolMessage.Parameters.Add("signtext_id", signtextId);
+            context.Properties.Items["fetchPades"] = "true";
         }
 
         private async Task SignRequest(RedirectContext context)
@@ -187,12 +190,18 @@ namespace NetsBrokerIntegration.NetCore.Services
             idpParameters.MitIdParameters.LoaValue = context.Request.Query["mitid_loa_value"];
         }
 
-        private static void AddTokenToAttributes(TokenResponseReceivedContext context, string tokenName)
+        private async void AddTransactionTokenToAttributes(TokenResponseReceivedContext context)
         {
-            if (context.TokenEndpointResponse.Parameters.ContainsKey(tokenName))
+            if (context.TokenEndpointResponse.Parameters.ContainsKey("transaction_token"))
             {
-                var transactionToken = context.TokenEndpointResponse.Parameters[tokenName];
-                context.Properties.Items[$".Token.{tokenName}"] = transactionToken;
+                var transactionToken = context.TokenEndpointResponse.Parameters["transaction_token"];
+                context.Properties.Items[".Token.transaction_token"] = transactionToken;
+
+                if (context.Properties.Items.ContainsKey("fetchPades"))
+                {
+                    var padesB64 = await signtextApiService.GetPAdES(transactionToken);
+                    memoryCache.Set("pades", padesB64);
+                }
             }
         }
 
