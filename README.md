@@ -1,6 +1,4 @@
-# Signaturgruppen Broker .net core DEMO
-
-Integration clients for the Signaturgruppen Broker.
+# Signaturgruppen Broker .net core demo
 
 ## Signing and encryption of requests
 in the appsettings, both signing and encryption can be enabled by setting the appropriate bool enablers to true.
