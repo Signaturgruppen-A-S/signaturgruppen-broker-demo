@@ -1,6 +1,6 @@
-# Nets eID Broker .net core DEMO
+# Signaturgruppen Broker .net core DEMO
 
-Integration clients for the Nets MitID Broker.
+Integration clients for the Signaturgruppen Broker.
 
 ## Signing and encryption of requests
 in the appsettings, both signing and encryption can be enabled by setting the appropriate bool enablers to true.
@@ -11,4 +11,4 @@ Always consider the need and requirements for your application and integration b
 
 2: Use postman to invoke Token endpoint and Userinfo endpoint
 
-https://github.com/Signaturgruppen-A-S/nets-eID-broker-demo/blob/main/postman/Nets%20eID%20Broker%20(PP).postman_collection.json
+https://github.com/Signaturgruppen-A-S/signaturgruppen-broker-demo/blob/main/postman/Nets%20eID%20Broker%20(PP).postman_collection.json
