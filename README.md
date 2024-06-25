@@ -9,4 +9,4 @@ Always consider the need and requirements for your application and integration b
 
 2: Use postman to invoke Token endpoint and Userinfo endpoint
 
-https://github.com/Signaturgruppen-A-S/signaturgruppen-broker-demo/blob/main/postman/Nets%20eID%20Broker%20(PP).postman_collection.json
+https://github.com/Signaturgruppen-A-S/signaturgruppen-broker-demo/blob/main/postman/sg-broker-pp.postman_collection.json
