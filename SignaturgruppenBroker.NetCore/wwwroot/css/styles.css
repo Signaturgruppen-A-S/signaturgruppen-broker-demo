@@ -529,7 +529,7 @@ body {
     }
 
         body.netbank figure.logo {
-            background-image: url(../assets/nets-mitid-broker.svg);
+            background-image: url(../assets/signaturgruppen-broker.svg);
         }
 
 .ie11-warning {
@@ -803,7 +803,7 @@ aside {
 
 figure.logo {
     margin: 1rem;
-    background-image: url(../assets/nets-mitid-broker-negativ.svg);
+    background-image: url(../assets/signaturgruppen-broker-neg.svg);
     background-position: center left;
     background-repeat: no-repeat;
     background-size: contain;
@@ -970,7 +970,7 @@ figure.popup {
 .split-wrapper section.content figure.logo {
     position: absolute;
     top: 2rem;
-    background-image: url(../assets/nets-mitid-broker-negativ.svg);
+    background-image: url(../assets/signaturgruppen-broker-neg.svg);
     margin-left: 0;
 }
 
@@ -1264,7 +1264,7 @@ body.open {
 }
 
     body.open figure.logo {
-        background-image: url(../assets/nets-mitid-broker-negativ.svg);
+        background-image: url(../assets/signaturgruppen-broker-neg.svg);
     }
 
     body.open .content {

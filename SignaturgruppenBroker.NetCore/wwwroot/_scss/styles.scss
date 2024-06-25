@@ -36,17 +36,19 @@ html{
     height:100%;
     font-family: 'Roboto', sans-serif;
 }
-body{
-    display:flex;
-    font-size:90%;
+body {
+    display: flex;
+    font-size: 90%;
+
     &.netbank,
     &.signin,
-    &.confirm{
-        height:100%;
+    &.confirm {
+        height: 100%;
     }
-    &.netbank{
-        figure.logo{
-            background-image: url(../assets/nets-mitid-broker.svg);
+
+    &.netbank {
+        figure.logo {
+            background-image: url(../assets/signaturgruppen-broker.svg);
         }
     }
 }
@@ -272,21 +274,22 @@ aside{
     width:25%;
     max-width:300px;
 }
-figure.logo{
-    margin:1rem;
-    background-image:url(../assets/nets-mitid-broker-negativ.svg);
+figure.logo {
+    margin: 1rem;
+    background-image: url(../assets/signaturgruppen-broker.svg);
     background-position: center left;
     background-repeat: no-repeat;
     background-size: contain;
-    height:45px;
-    width:80px;
-    padding-left:60px;
+    height: 45px;
+    width: 80px;
+    padding-left: 60px;
     display: flex;
     align-items: center;
-    font-weight:bold;
-    font-size:120%;
-    .popupmode &{
-        display:none;
+    font-weight: bold;
+    font-size: 120%;
+
+    .popupmode & {
+        display: none;
     }
 }
 figure.success{
@@ -348,100 +351,120 @@ figure.popup{
     }
 }
 
-.split-wrapper{
-    display:flex;
-    width:100%;
-    height:100%;
-    &.mandatory{
-        .btn-continue{
-            display:none;
+.split-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    &.mandatory {
+        .btn-continue {
+            display: none;
         }
-        @media screen and (max-width:800px){
+
+        @media screen and (max-width:800px) {
             flex-direction: row-reverse;
-            section{
-                display:flex;
+
+            section {
+                display: flex;
                 flex: none;
                 width: 100%;
                 left: 0;
                 position: absolute;
                 min-height: 100%;
                 height: 587px;
-                &.content{
+
+                &.content {
                     justify-content: flex-start;
-                    padding:1rem;
+                    padding: 1rem;
                     padding-top: 120px;
-                    .popupmode &{
-                        padding-top:2rem;
+
+                    .popupmode & {
+                        padding-top: 2rem;
                     }
-                    display:flex;
-                    z-index:100;
-                    .btn-continue{
-                        display:block;
+
+                    display: flex;
+                    z-index: 100;
+
+                    .btn-continue {
+                        display: block;
                     }
                 }
             }
         }
     }
-    section{
-        flex:1;
+
+    section {
+        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
-        &.signing-frame{
-            @media screen and (max-width:800px){
-                flex:1;
-                padding:0;
+
+        &.signing-frame {
+            @media screen and (max-width:800px) {
+                flex: 1;
+                padding: 0;
             }
-            padding:2rem 4rem;
-            flex:none;
+
+            padding: 2rem 4rem;
+            flex: none;
         }
-        @media screen and (min-width:800px) and (max-width:1000px){
-            padding:2rem !important;
+
+        @media screen and (min-width:800px) and (max-width:1000px) {
+            padding: 2rem !important;
         }
-        &.content{
-            @media screen and (max-width:800px){
-                display:none;
+
+        &.content {
+            @media screen and (max-width:800px) {
+                display: none;
             }
-            figure.logo{
+
+            figure.logo {
                 position: absolute;
-                top:2rem;
-                background-image: url(../assets/nets-mitid-broker-negativ.svg);
-                margin-left:0;
+                top: 2rem;
+                background-image: url(../assets/signaturgruppen-broker.svg);
+                margin-left: 0;
             }
+
             align-items: flex-start;
             justify-content: center;
-            padding:4rem;
-            margin:0;
+            padding: 4rem;
+            margin: 0;
             box-sizing: border-box;
-            color:white;
-            background:linear-gradient($andeby-bright-blue, $andeby-blue);
-            .soft-content{
-                max-width:700px;
-                width:100%;
-                h1{
-                    margin:0;
+            color: white;
+            background: linear-gradient($andeby-bright-blue, $andeby-blue);
+
+            .soft-content {
+                max-width: 700px;
+                width: 100%;
+
+                h1 {
+                    margin: 0;
                 }
-                h3{
-                    color:$nets-bright-blue;
-                    font-size:120%;
-                    margin-top:.5rem;
+
+                h3 {
+                    color: $nets-bright-blue;
+                    font-size: 120%;
+                    margin-top: .5rem;
                 }
-                p{
+
+                p {
                     line-height: 20px;
-                    margin-bottom:50px;
+                    margin-bottom: 50px;
                 }
-                .btn{
-                    width:auto;
-                    margin-right:1rem;
-                    margin-bottom:1rem;
+
+                .btn {
+                    width: auto;
+                    margin-right: 1rem;
+                    margin-bottom: 1rem;
                     padding: 1rem 2rem 1rem 4rem;
                     line-height: 20px;
                     height: auto;
-                    box-shadow:0 25px 50px -12px rgba(0,0,0,.25);
+                    box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
                     transition: .4s box-shadow background-color;
-                    &:hover{
-                        background-color:lighten($andeby-bright-blue,3%);
-                        box-shadow:0 10px 25px -6px rgba(0,0,0,.25);
+
+                    &:hover {
+                        background-color: lighten($andeby-bright-blue,3%);
+                        box-shadow: 0 10px 25px -6px rgba(0,0,0,.25);
                     }
                 }
             }
@@ -670,18 +693,20 @@ figure.popup{
     }
 }
 
-body.open{
-    background:linear-gradient($andeby-bright-blue, $andeby-blue);
-    color:white;
-    padding:2rem;
+body.open {
+    background: linear-gradient($andeby-bright-blue, $andeby-blue);
+    color: white;
+    padding: 2rem;
     flex-direction: column;
-    figure.logo{
-        background-image: url(../assets/nets-mitid-broker-negativ.svg);
+
+    figure.logo {
+        background-image: url(../assets/signaturgruppen-broker.svg);
     }
-    .content{
+
+    .content {
         text-align: center;
-        display:block;
-        padding-top:8rem;
-        margin:0;
+        display: block;
+        padding-top: 8rem;
+        margin: 0;
     }
 }

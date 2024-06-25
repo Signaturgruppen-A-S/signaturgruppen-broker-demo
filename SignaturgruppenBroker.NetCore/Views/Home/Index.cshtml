@@ -9,7 +9,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Nets eID Broker</title>
+    <title>Signaturgruppen Broker</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/css/landingpage.css" asp-append-version="true">
@@ -41,10 +41,10 @@
             </h1>
             <h4>
                 This is an demonstration of how<br />
-                Nets eID Broker can be used.
+                Signaturgruppen Broker can be used.
             </h4>
             <button class="mitid-button" id="basic-signin-button" v-show="!persistedParameters.advancedOptions" v-on:click="basicSignin()">
-                Try out Nets eID Broker
+                Try out Signaturgruppen Broker
             </button>
             <button class="btn-text" id="advanced-signin-button" v-on:click="toggleAdvanced()">Toggle Advanced Options</button>
             <form class="signin-form" v-on:submit="callOP" v-show="persistedParameters.advancedOptions">

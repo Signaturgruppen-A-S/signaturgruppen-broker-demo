@@ -69,11 +69,9 @@ namespace NetsBrokerIntegration.NetCore.Services
                 var language = context.Request.Query["language"];
                 context.ProtocolMessage.Parameters.Add("language", CultureInfo.GetCultureInfo(language).TwoLetterISOLanguageName);
             }
-            var signtextDemo = bool.Parse(context.Request.Query["signtextDemo"]);
-            if (signtextDemo)
+            if (IsSigntextDemo(context))
             {
                 await SetupSigntextIdOidcParamUsingSigntextApiIntegration(context);
-
             }
 
             if (configuration.SignOrEncryptRequest())
@@ -82,6 +80,11 @@ namespace NetsBrokerIntegration.NetCore.Services
             }
 
             await Task.CompletedTask;
+
+            static bool IsSigntextDemo(RedirectContext context)
+            {
+                return context.Request.Query.ContainsKey("signtextDemo") && bool.Parse(context.Request.Query["signtextDemo"]);
+            }
         }
 
         private async Task SetupSigntextIdOidcParamUsingSigntextApiIntegration(RedirectContext context)
