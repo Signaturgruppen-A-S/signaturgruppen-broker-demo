@@ -372,6 +372,17 @@ button.flowbox {
     margin-bottom: 24px;
 }
 
+.customform .checkbox-select {
+    display: flex;
+    align-items: center;
+}
+
+    .customform .checkbox-select input[type=checkbox] {
+        height: 20px;
+        width: 20px;
+        margin-right: 0.5rem;
+    }
+
 .customform button[type=submit] {
     margin-top: 2rem;
 }
