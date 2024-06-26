@@ -67,12 +67,10 @@
                 </div>
                 <div class="arrow"></div>
             </section>
-            <!-- to here.. -->
             
      
             <form class="box customform" v-on:submit="callOP" v-show="persistedParameters.advancedOptions">
                 <div class="content">
-                    <h5>MitID IDP options</h5>
                
                     <div class="form-group" v-show="persistedParameters.idp.mitid">
                         <h5>Authentication Level</h5>
@@ -171,14 +169,16 @@
                             <span>Require Social Security Number</span>
                         </span>
                     </label>
+                   
+                </div>
                     <button type="submit" id="proceed-button" class="btn btn-primary" v-bind:disabled="!formValid">
                         Proceed
                     </button>
-                </div>
             </form>
-            <div class="footer" v-show="persistedParameters.advancedOptions">
-                <button class="btn btn-outline" v-on:click="toggleAdvanced()">← Go back</button>
-            </div>
+            
+        </div>
+        <div class="footer" v-show="persistedParameters.advancedOptions">
+            <button class="btn btn-outline" v-on:click="toggleAdvanced()">← Go back</button>
         </div>
     </div>
     <script src="~/js/vue.js" asp-append-version="true"></script>
