@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@{
+    Layout = null;
+ ViewData["Title"] = "Secured login page";
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Signaturgruppen Broker</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="stylesheet" href="/css/styles.css">
+    
+    <meta name="theme-color" content="#fafafa">
+    <script>
+        function downloadPdf(base64) {
+            var binaryString = window.atob(base64);
+            var binaryLen = binaryString.length;
+            var bytes = new Uint8Array(binaryLen);
+            for (var i = 0; i < binaryLen; i++) {
+                var ascii = binaryString.charCodeAt(i);
+                bytes[i] = ascii;
+            }
+            var blob = new Blob([bytes], { type: "application/pdf" });
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            var fileName = 'PAdES.pdf';
+            link.download = fileName;
+            link.click();
+        };
+    </script>
+</head>
+
+<body class="netbank">
+    <aside>
+        <figure class="logo"></figure>
+        <figure class="hamburger"></figure>
+        <ul>
+            <li class="unfold">
+                <a class="active">Claims</a>
+                <ul>
+                    <li><a href="#anchor-claims">Userclaims</a></li>
+                    <li><a href="#anchor-properties">.Net core properties</a></li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+    <div class="content">
+        <header>
+            <p id="welcome-back">Welcome back <strong>@(User.Claims.SingleOrDefault(c => c.Type.Equals("preferred_username", StringComparison.InvariantCultureIgnoreCase))?.Value ?? User.Claims.SingleOrDefault(id=>id.Type.Equals("sub")).Value)</strong></p>
+            <a href="@Url.Action("Logout","Home")" class="btn btn-main btn-signout" id="signout">Sign out</a>
+        </header>
+        <div class="box">
+            <div class="overview">
+                <h3><figure class="scope" id="anchor-claims"></figure>Claims</h3>
+                <div class="confirm-note confirm-note--block">
+                    <h1>ID token claims</h1>
+                    <ul>
+                        @foreach (var claim in User.Claims)
+                        {
+                            <li>
+                                <div class="key">@claim.Type</div>
+                                <div class="value @claim.Type">@claim.Value</div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <h3 id="anchor-properties"><figure class="scope"></figure>.Net core properties</h3>
+                <div class="confirm-note confirm-note--block">
+                    <h2>Properties</h2>
+
+                    <ul>
+                        @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
+                        {
+                            <li>
+                                <div class="key">@prop.Key</div>
+                                <div class="value">@prop.Value</div>
+                            </li>
+                        }
+                        @if (ViewBag.Pades != null)
+                        {
+                            <li>
+                                <div class="key">PAdES generated</div>
+                                <div class="value"><button onclick="downloadPdf('@ViewBag.Pades');">Download PAdES</button></div>
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
