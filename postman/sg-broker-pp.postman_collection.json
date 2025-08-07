@@ -1,9 +1,7 @@
 {
 	"info": {
-		"_postman_id": "4f5dfe93-15c3-4996-8c92-e1b4069280a9",
 		"name": "Signaturgruppen Broker (PP)",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "2320829"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -16,7 +14,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{authority_url}}/.well-known/openid-configuration"
+				"url": {
+					"raw": "{{authority_url}}/.well-known/openid-configuration",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						".well-known",
+						"openid-configuration"
+					]
+				}
 			},
 			"response": []
 		},
@@ -65,10 +72,18 @@
 			"request": {
 				"auth": {
 					"type": "basic",
-					"basic": {
-						"password": "{{client_secret}}",
-						"username": "{{client_id}}"
-					}
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{client_secret}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{client_id}}",
+							"type": "string"
+						}
+					]
 				},
 				"method": "POST",
 				"header": [],
@@ -96,10 +111,9 @@
 							"type": "text"
 						},
 						{
-							"key": "",
-							"value": "",
-							"type": "text",
-							"disabled": true
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
 						},
 						{
 							"key": "",
@@ -109,58 +123,20 @@
 						}
 					]
 				},
-				"url": "https://pp.netseidbroker.dk/op/connect/par"
-			},
-			"response": []
-		},
-		{
-			"name": "Authentication request prepare PAR HTML Sign",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": {
-						"password": "{{client_secret}}",
-						"username": "{{client_id}}"
-					}
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "client_id",
-							"value": "{{client_id}}",
-							"type": "text"
-						},
-						{
-							"key": "response_type",
-							"value": "code",
-							"type": "text"
-						},
-						{
-							"key": "redirect_uri",
-							"value": "https://openidconnect.net/callback",
-							"type": "text"
-						},
-						{
-							"key": "scope",
-							"value": "openid mitid",
-							"type": "text"
-						},
-						{
-							"key": "signtext_base64",
-							"value": "PGh0bWw+CiA8c3R5bGU+CiAgdWx7CiAgICAgIGxpc3Qtc3R5bGU6IG5vbmU7CiAgICAgIG1hcmdpbjogMDsKICAgICAgcGFkZGluZzogMXJlbTsKICB9CiAgdWwgbGl7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47CiAgICAgIG1hcmdpbi1ib3R0b206IDJyZW07CiAgfQoKICAua2V5ewogICAgICBjb2xvcjogI2FkYjViZDsKICAgICAgZm9udC1zaXplOiA5MCU7CiAgICAgIG1hcmdpbi1ib3R0b206IDVweDsKICAgICAgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsKICB9CiAgLnZhbHVlewogICAgICBmb250LXdlaWdodDogYm9sZDsKICB9CiA8L3N0eWxlPgogPGJvZHk+CiAgPHVsPgogICA8bGk+CiAgICA8ZGl2IGNsYXNzPSJrZXkiPkZyb20gQWNjb3VudDwvZGl2PgogICAgPGRpdiBjbGFzcz0idmFsdWUiPlNhbGFyeSAoNTEgMzE4NCA4NDgxKTwvZGl2PgogICA8L2xpPgogICA8bGk+CiAgICA8ZGl2IGNsYXNzPSJrZXkiPlJlY2lldmVyPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJ2YWx1ZSI+RU9OICgxNTUxIDQ1ODQ4NDQ0OCk8L2Rpdj4KICAgPC9saT4KICAgPGxpPgogICAgPGRpdiBjbGFzcz0ia2V5Ij5SZWZlcmVuY2U8L2Rpdj4KICAgIDxkaXYgY2xhc3M9InZhbHVlIj5JbnZvaWNlICMxNTQxODE0NDwvZGl2PgogICA8L2xpPgogICA8bGk+CiAgICA8ZGl2IGNsYXNzPSJrZXkiPkRhdGU8L2Rpdj4KICAgIDxkaXYgY2xhc3M9InZhbHVlIj4yNCBGZWJydWFyeSAyMDIwPC9kaXY+CiAgIDwvbGk+CiAgIDxsaT4KICAgIDxkaXYgY2xhc3M9ImtleSI+QW1vdW50PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJ2YWx1ZSB0b3RhbCI+MTguNDg0LDA1PHNtYWxsPiBES0s8L3NtYWxsPjwvZGl2PgogICA8L2xpPgogIDwvdWw+CiA8L2JvZHk+CjwvaHRtbD4=",
-							"type": "text"
-						},
-						{
-							"key": "signtext_type",
-							"value": "html",
-							"type": "text"
-						}
+				"url": {
+					"raw": "https://pp.netseidbroker.dk/op/connect/par",
+					"protocol": "https",
+					"host": [
+						"pp",
+						"netseidbroker",
+						"dk"
+					],
+					"path": [
+						"op",
+						"connect",
+						"par"
 					]
-				},
-				"url": "https://pp.netseidbroker.dk/op/connect/par"
+				}
 			},
 			"response": []
 		},
@@ -170,7 +146,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://pp.netseidbroker.dk/op/connect/authorize?client_id={{client_id}}&redirect_uri=https://openidconnect.net/callback&response_type=code&scope=openid mitid",
+					"raw": "https://pp.netseidbroker.dk/op/connect/authorize?client_id={{client_id}}&request_uri=urn:ietf:params:oauth:request_uri:EFC...",
 					"protocol": "https",
 					"host": [
 						"pp",
@@ -188,16 +164,8 @@
 							"value": "{{client_id}}"
 						},
 						{
-							"key": "redirect_uri",
-							"value": "https://openidconnect.net/callback"
-						},
-						{
-							"key": "response_type",
-							"value": "code"
-						},
-						{
-							"key": "scope",
-							"value": "openid mitid"
+							"key": "request_uri",
+							"value": "urn:ietf:params:oauth:request_uri:EFC..."
 						}
 					]
 				}
@@ -242,7 +210,16 @@
 						}
 					]
 				},
-				"url": "{{authority_url}}/connect/token"
+				"url": {
+					"raw": "{{authority_url}}/connect/token",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				}
 			},
 			"response": []
 		},
@@ -267,7 +244,16 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": "{{authority_url}}/connect/userinfo"
+				"url": {
+					"raw": "{{authority_url}}/connect/userinfo",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						"connect",
+						"userinfo"
+					]
+				}
 			},
 			"response": []
 		},
@@ -303,7 +289,18 @@
 						}
 					}
 				},
-				"url": "{{authority_url}}/api/v1/mitid/matchCpr"
+				"url": {
+					"raw": "{{authority_url}}/api/v1/mitid/matchCpr",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"mitid",
+						"matchCpr"
+					]
+				}
 			},
 			"response": []
 		},
@@ -340,7 +337,18 @@
 						}
 					}
 				},
-				"url": "{{authority_url}}/api/v1/session/logout"
+				"url": {
+					"raw": "{{authority_url}}/api/v1/session/logout",
+					"host": [
+						"{{authority_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"session",
+						"logout"
+					]
+				}
 			},
 			"response": []
 		}
@@ -372,7 +380,7 @@
 		},
 		{
 			"key": "redirect_uri",
-			"value": "https://openidconnect.net/callback"
+			"value": "https://oidcdebugger.com/debug"
 		},
 		{
 			"key": "client_id",
